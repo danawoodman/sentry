@@ -39,7 +39,6 @@ export default (app) => {
 
   app.use(currentAccount())
   app.use(templateLocals())
-  //const account = await Account.findOne({})
 
   //app.use(bodyParser.urlencoded({ extended: true }))
 }
