@@ -1,4 +1,4 @@
-Copyright (c) 2015 Dana Woodman <dana@danawoodman.com>
+Copyright (c) 2015 Built By BIG LCC <hello@builtbybig.com> (http://builtbybig.com)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
