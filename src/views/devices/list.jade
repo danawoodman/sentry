@@ -17,12 +17,22 @@ block content
         thead
           tr
             th Name
+            th Connected
             th ID
+            th Last Communication
         tbody
           for device in devices
             tr
               td= device.name
-              td= device.id
+              td
+                if device.connected
+                  i.fa.fa-check.text-success
+                else
+                  i.fa.fa-times.text-danger
+              td
+                em.text-muted= device.id
+              td
+                time.help(datetime=device.lastHeard title=device.lastHeard)= moment(device.lastHeard).fromNow()
     else
       p.text-muted No devices available...
 
