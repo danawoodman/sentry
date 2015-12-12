@@ -4,6 +4,8 @@
 
 **Note: we are currently under active development. This project is not yet ready to use. Stay tuned!**
 
+![screenshot](http://cl.ly/e4y0/Screen%20Shot%202015-12-12%20at%202.33.19%20PM.png)
+
 ## Overview
 
 Sentry is a doorlock access control system using RFID cards, Particle Photons (WIFI connected Arduinos) and Cobot (a co-working space management system).
@@ -130,6 +132,21 @@ Deploying to something like Heroku:
 - Push to Heroku
 - Setup a MongoDB host (e.g. MongoLab or similar)
 - Set your environment configs (e.g. `heroku config:set ...`)
+
+
+## Screenshots
+
+Memberships list:
+
+![memberships](http://cl.ly/e4y0/Screen%20Shot%202015-12-12%20at%202.33.19%20PM.png)
+
+Device list:
+
+![devices](http://cl.ly/e4lt/Screen%20Shot%202015-12-12%20at%202.35.10%20PM.png)
+
+Login with Particle:
+
+![Particle login](http://cl.ly/e4BS/Screen%20Shot%202015-12-12%20at%202.36.14%20PM.png)
 
 
 ## Credits
