@@ -119,6 +119,8 @@ npm run watch
 ngrok http --subdomain my-doorlock-app 5555
 ```
 
+Now you should be able to open up <http://my-doorlock-app.ngrok.io> and see your application.
+
 
 ## Production
 
