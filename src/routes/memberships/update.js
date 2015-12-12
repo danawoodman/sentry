@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import request from 'request-promise'
 
 const debug = require('debug')('sentry:routes:memberships:update')
@@ -9,9 +10,17 @@ export default async (req, res) => {
   const subdomain = config.COBOT_SUBDOMAIN
   const staffPlans = config.COBOT_STAFF_PLANS
   const unlimitedPlans = config.COBOT_UNLIMITED_PLANS
+  const accessToken = req.currentAccount.cobotAccessToken
 
   // TODO: Move to cobot lib
-  const accessToken = req.currentAccount.cobotAccessToken
+  const checkinTokens = await request({
+    headers: {
+      'Authorization': `Bearer ${accessToken}`,
+    },
+    json: true,
+    uri: `https://${subdomain}.cobot.me/api/check_in_tokens`,
+  })
+
   const memberships = await request({
     headers: {
       'Authorization': `Bearer ${accessToken}`,
@@ -24,11 +33,20 @@ export default async (req, res) => {
   })
 
   debug('list of memberships', memberships)
+  debug('list of checkin tokens', checkinTokens)
 
   // For every member, find or update the member in our local
   // database and figure out their current status.
   // TODO: Move to lib/helper
-  const members = await* memberships.map(async (membership) => {
+  let membersWithTokens = await* checkinTokens.map(async (token) => {
+
+    const membership = _.findWhere(memberships, {
+      id: token.membership.id,
+    })
+
+    if (!membership) {
+      return null
+    }
 
     debug('adding/updating member', membership)
 
@@ -71,6 +89,9 @@ export default async (req, res) => {
     )
   })
 
-  req.flash('info', `${members.length} memberships updated`)
+  // Clean out any blank records.
+  membersWithTokens = _.pull(membersWithTokens, null)
+
+  req.flash('info', `${membersWithTokens .length} memberships updated`)
   res.redirect('/')
 }
