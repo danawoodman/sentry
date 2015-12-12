@@ -18,6 +18,11 @@ html
           strong Sentry
           em.p-l-1= config.COBOT_SUBDOMAIN
 
+        ul.nav.navbar-nav
+          li.nav-item
+            a.nav-link(href='/') Memberships
+          li.nav-item
+            a.nav-link(href='/devices') Devices
 
         .navbar-text.pull-right
           if currentAccount
@@ -33,11 +38,6 @@ html
               | Authenticate with Cobot
               = ' '
               i.fa.fa-sign-in
-
-        //
-          ul.nav.navbar-nav
-            li.nav-item
-              a.nav-link(href='/') Dashboard
 
     .container
       for type in ['success', 'info', 'warning', 'danger']
