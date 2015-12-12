@@ -2,6 +2,10 @@ import mongoose from 'mongoose'
 
 const schema = new mongoose.Schema({
 
+  accessToken: {
+    type: String,
+  },
+
   active: {
     default: false,
     type: Boolean,

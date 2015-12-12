@@ -20,6 +20,7 @@ block content
       thead
         tr
           th Name
+          th Token
           th Active
           th Credits
           th Staff
@@ -29,6 +30,7 @@ block content
             td
               a(href='https://#{config.COBOT_SUBDOMAIN}.cobot.me/admin/memberships/#{membership.cobotId}' target='_blank')
                 = membership.name
+            td= membership.accessToken
             td
               if membership.active
                 i.fa.fa-check.text-success

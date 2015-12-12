@@ -21,6 +21,7 @@ export default async (req, res) => {
     uri: `https://${subdomain}.cobot.me/api/check_in_tokens`,
   })
 
+  // TODO: Move to cobot lib
   const memberships = await request({
     headers: {
       'Authorization': `Bearer ${accessToken}`,
@@ -79,6 +80,7 @@ export default async (req, res) => {
     return await Membership.update(
       { cobotId },
       {
+        accessToken: token.token,
         active,
         availableCredits,
         name,
