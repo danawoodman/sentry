@@ -22,8 +22,15 @@ The brains of Sentry is a Node.js server that
 - Displays a list of memberships and their current status
 - Displays all connected door lock devices and allows manual syncronization
 - Manual and automatic syncing (a redis job running every 5 minutes) of membership information from Cobot
-- Secured behind HTTP basic authentication
+- Secured behind HTTP basic authentication (set `ADMIN_USERNAME` and `ADMIN_PASSWORD`)
 - Fully deployable to cloud hosts like Heroku or Docker
+- All memberships and checkins are stored in MongoDB so they can be retrieved and logged independently of a connection with Cobot (if Cobot goes down, your system will still work, at least in a limited capacity)
+
+The server supports the concept of "unlimited" plans which are not limited by day passes as well as "staff" plans which allow unlimited access. See the `src/config/config.js` file for environment configs that control these properties.
+
+Code for the server is located in `src/` and the tests live in `test/`
+
+Static assets (css, js, images) are located in `public/`. `src/assets` contains SCSS and ES2015/6/7 JavaScript that will get compiled/transpiled to plain CSS/ES5.
 
 
 ### The door locks
@@ -40,13 +47,15 @@ The door locks, powered by [Particle Photons](https://store.particle.io/):
 
 The door receives a list of all members within a Cobot account so that it can display a relevant message to a user like:
 
-> Hello John, sorry you're out of day passes. Go to https://chimera.cobot.me to buy more!
+> Hello John, sorry but you're out of day passes. Go to https://chimera.cobot.me to buy more!
 
 Or:
 
-> Welcome in Jane, have fun making today!
+> Welcome in Jane, make something awesome today!
 
 These messages are customizable via the admin so you can personalize things to fit your space and community.
+
+Code for the door locks lives in `firmware/`
 
 
 ## Setup

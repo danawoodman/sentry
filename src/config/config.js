@@ -6,7 +6,7 @@ const env = process.env
 
 export const NODE_ENV = env.NODE_ENV || 'development'
 export const PORT = env.PORT || 5555
-export const APP_URL = env.APP_URL || `http://localhost${PORT}`
+export const APP_URL = env.APP_URL || `http://localhost:${PORT}`
 export const COOKIE_SECRET = env.COOKIE_SECRET || 'super duper sekret!'
 
 // Authentication
