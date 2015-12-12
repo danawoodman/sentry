@@ -2,7 +2,7 @@
 
 > A RFID doorlock application that integrates with Cobot
 
-This is the server component of the RFID doorlock system known as Sentry.
+**Note: we are currently under active development. This project is not yet ready to use. Stay tuned!**
 
 ## Overview
 
