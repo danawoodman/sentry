@@ -158,6 +158,6 @@ See `credits.md` for a full list of the awesome people and groups that made this
 
 ## License
 
-Copyright &copy; Dana Woodman 2015
+Copyright &copy; 2015 Built By BIG LLC.
 
 Licensed under an MIT license. See `license.md`.
