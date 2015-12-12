@@ -1,6 +1,6 @@
 # Sentry
 
-> A RFID doorlock application that integrates with Cobot
+> A RFID doorlock application that integrates with Cobot using Particle Photons using Particle Photons.
 
 **Note: we are currently under active development. This project is not yet ready to use. Stay tuned!**
 
