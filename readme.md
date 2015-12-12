@@ -4,6 +4,50 @@
 
 This is the server component of the RFID doorlock system known as Sentry.
 
+## Overview
+
+Sentry is a doorlock access control system using RFID cards, Particle Photons (WIFI connected Arduinos) and Cobot (a co-working space management system).
+
+Sentry consists of two parts:
+
+- The server
+- The door lock(s)
+
+### The server
+
+The brains of Sentry is a Node.js server that
+
+- Connects to Cobot, getting an updated list of memberships and logging checkins
+- Connects to Particle's API to send and receive messages from the Photons
+- Displays a list of memberships and their current status
+- Displays all connected door lock devices and allows manual syncronization
+- Manual and automatic syncing (a redis job running every 5 minutes) of membership information from Cobot
+- Secured behind HTTP basic authentication
+- Fully deployable to cloud hosts like Heroku or Docker
+
+
+### The door locks
+
+The door locks, powered by [Particle Photons](https://store.particle.io/):
+
+- Read a scanned RFID card (from a 125khz RFID card using a standard RFID reader)
+- Authenticate the card against a local list of access tokens retrieved from the Node.js server
+- Log checkins into the space locally (who, what time, what door and if it succeeded or not)
+- Periodically syncronize with the Node.js server by sending any recent checkins and then receiving an updated list of access tokens.
+- Uses various means to open the door including an electronic door latch, a servo or some other means yet to be devised.
+- Works with or without WIFI and can have an optional battery backup (syncing of course won't work without WIFI but the local cards will still read properly)
+- Supports writing a display messager to a display including support for color coded messages (green for success, blue for "ready" and red for errors)
+
+The door receives a list of all members within a Cobot account so that it can display a relevant message to a user like:
+
+> Hello John, sorry you're out of day passes. Go to https://chimera.cobot.me to buy more!
+
+Or:
+
+> Welcome in Jane, have fun making today!
+
+These messages are customizable via the admin so you can personalize things to fit your space and community.
+
 
 ## Setup
 
