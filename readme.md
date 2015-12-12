@@ -27,6 +27,9 @@ npm install
 
 # Copy over and edit your local config:
 cp .env.example .env
+
+# Seed the database with sample data.
+npm run seed
 ```
 
 Make sure to [create an OAuth2 application on Cobot](https://www.cobot.me/oauth2_clients) and copy your client id and secret into the `.env` file.

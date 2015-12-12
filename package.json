@@ -42,6 +42,7 @@
     "sinon-express-mock": "1.0.1"
   },
   "scripts": {
+    "seed": "babel-node scripts/seed",
     "start": "babel-node src/index",
     "test": "mocha",
     "watch": "nodemon --exec npm start",

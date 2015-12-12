@@ -1,14 +1,8 @@
 import chalk from 'chalk'
+import connect from './lib/mongo-connect'
 import errorHandler from './middlewares/error-handler'
 import express from 'express'
-import fs from 'fs'
-import mongoose from 'mongoose'
-import path from 'path'
-import {
-  MODELS_PATH,
-  MONGO_URI,
-  PORT,
-} from './config/config'
+import { PORT } from './config/config'
 
 const app = express()
 const debug = require('debug')('sentry:index')
@@ -19,9 +13,7 @@ process.on('unhandledRejection', (reason, p) => {
 })
 
 // Bootstrap models
-fs.readdirSync(MODELS_PATH)
-  .filter(file => file.includes('.js'))
-  .forEach(file => require(path.join(MODELS_PATH, file)))
+require('./lib/bootstrap-models').default()
 
 // Configure express.
 require('./config/express').default(app)
@@ -41,14 +33,6 @@ const listen = () => {
     console.log(chalk.green('Sentry app listening at'),
                 chalk.blue.underline(`http://${host}:${port}`))
   })
-}
-
-// Connect to mongo.
-const connect = () => {
-  const options = {}
-  console.log(chalk.green('Connecting to MongoDB at URI:'),
-              chalk.blue.underline(MONGO_URI))
-  return mongoose.connect(MONGO_URI, options).connection
 }
 
 // Connect to mongo, then fire up the server.
