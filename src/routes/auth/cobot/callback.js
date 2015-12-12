@@ -1,5 +1,6 @@
 import request from 'request-promise'
 
+const Account = require('mongoose').model('Account')
 const debug = require('debug')('sentry:routes:auth:cobot:callback')
 
 export default async (req, res) => {
@@ -26,15 +27,19 @@ export default async (req, res) => {
       uri: 'https://www.cobot.me/oauth/access_token',
     })
   } catch(err) {
-    // TODO: better handling
     console.error(err.stack)
-    return res.send(err)
+    req.flash('danger', err.message)
+    return res.redirect('/')
   }
 
   debug('response from access token request', response)
 
-  const accessToken = response.access_token
+  const cobotAccessToken = response.access_token
 
-  //
-  res.send(accessToken)
+  // Find any account, if one exists, or create a new
+  // account and then set the access token.
+  await Account.update({}, { cobotAccessToken }, { upsert: true })
+
+  req.flash('success', 'Authentication with Cobot succeeded!')
+  res.redirect('/')
 }

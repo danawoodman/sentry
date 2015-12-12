@@ -1,8 +1,10 @@
 //import bodyParser from 'body-parser'
 import cookieSession from 'cookie-session'
+import currentAccount from '../middlewares/current-account'
 import express from 'express'
 import flash from 'express-flash'
 import sassMiddleware from 'node-sass-middleware'
+import templateLocals from '../middlewares/template-locals'
 import * as config from './config'
 
 export default (app) => {
@@ -34,6 +36,10 @@ export default (app) => {
     secret: config.COOKIE_SECRET,
   }))
   app.use(flash())
+
+  app.use(currentAccount())
+  app.use(templateLocals())
+  //const account = await Account.findOne({})
 
   //app.use(bodyParser.urlencoded({ extended: true }))
 }

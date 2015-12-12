@@ -1,0 +1,18 @@
+extends ./layout.jade
+
+block title
+  | Booooom!
+
+block content
+
+  h1 Bummer...
+  p Something exploded! 🔥
+
+  // Debug logging
+  if config.NODE_ENV === 'development'
+    hr
+    p
+      em Note: only visible in development.
+    p
+      strong= error.message
+    pre= error.stack

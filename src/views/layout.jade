@@ -15,17 +15,38 @@ html
 
     nav(class='navbar navbar-light bg-faded')
       .container
-        a(class='navbar-brand' href='/') Sentry
+        a(class='navbar-brand' href='/')
+          strong Sentry
+          em.p-l-1= config.COBOT_SUBDOMAIN
 
-        ul.nav.navbar-nav
-          li.nav-item
-            a.nav-link(href='/') Dashboard
 
-        div.pull-right
-          a.btn.btn-primary.btn-sm(href='/auth/cobot/login')
-            | Authenticate with Cobot
+        .navbar-text.pull-right
+          if currentAccount
+            i.fa.fa-check
             = ' '
-            i.fa.fa-sign-in
+            span.text-muted.p-r-1 Authenticated
+            a.btn.btn-primary-outline.btn-sm(href='/auth/cobot/login')
+              | Reauthenticate
+              = ' '
+              i.fa.fa-sign-in
+          else
+            a.btn.btn-primary.btn-sm(href='/auth/cobot/login')
+              | Authenticate with Cobot
+              = ' '
+              i.fa.fa-sign-in
+
+        //
+          ul.nav.navbar-nav
+            li.nav-item
+              a.nav-link(href='/') Dashboard
 
     .container
+      for type in ['success', 'info', 'warning', 'danger']
+        if messages[type]
+          .alert(class='alert-#{type}').m-b-lg
+            = messages[type]
+            if messages.link
+              | &nbsp;
+              a(href=messages.link[1])= messages.link[0]
+
       block content

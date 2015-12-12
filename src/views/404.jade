@@ -1,0 +1,18 @@
+extends ./layout.jade
+
+block title
+  | Where is it? 🔭
+
+block content
+
+  h1 Where is it?
+  p What you're looking for is somewhere I swear....
+
+  // Debug logging
+  if config.NODE_ENV === 'development'
+    hr
+    p
+      em Note: only visible in development.
+    p
+      strong= error.message
+    pre= error.stack

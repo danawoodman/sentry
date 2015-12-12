@@ -1,4 +1,5 @@
 import chalk from 'chalk'
+import errorHandler from './middlewares/error-handler'
 import express from 'express'
 import fs from 'fs'
 import mongoose from 'mongoose'
@@ -27,6 +28,10 @@ require('./config/express').default(app)
 
 // Bootstrap routes.
 require('./config/routes').default(app)
+
+// Error handling. This has to be at the
+// end to catch errors.
+app.use(errorHandler())
 
 // Run the app server.
 const listen = () => {
