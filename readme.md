@@ -151,7 +151,7 @@ Login with Particle:
 
 ## Credits
 
-Developed by [Dana Woodman](http://danawoodman.com) for [Chimera Art Space](http://chimeraarts.org), the first (and coolest) makerspace in Sonoma County, California.
+Developed by [Dana Woodman](http://danawoodman.com) and [Alex Wayne](http://beautifulpixel.com) for [Chimera Art Space](http://chimeraarts.org), the first (and coolest) makerspace in Sonoma County, California.
 
 See `credits.md` for a full list of the awesome people and groups that made this project possible.
 
