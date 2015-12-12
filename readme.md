@@ -94,7 +94,7 @@ npm install
 
 To integrate with Cobot, you will need to create an Oauth2 client, update your local configuration and then serve your application. See below for details.
 
-First, copy over the same environment config file:
+First, copy over the sample environment config file:
 
 ```shell
 cp .env.example .env
