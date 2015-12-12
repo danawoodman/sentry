@@ -65,7 +65,12 @@
     "reader",
     "makerspace",
     "hackerspace",
-    "entry"
+    "entry",
+    "cobot",
+    "particle",
+    "photon",
+    "artduino",
+    "spark"
   ],
   "author": "Dana Woodman <dana@danawoodman.com> (http://danawoodman.com/)",
   "license": "MIT"
