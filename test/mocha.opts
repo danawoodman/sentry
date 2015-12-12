@@ -1,0 +1,7 @@
+--compilers js:babel-register
+--recursive
+--colors
+--bail
+--ui bdd
+--reporter dot
+--require test/boot

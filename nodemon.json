@@ -1,0 +1,11 @@
+{
+  "ignore": [
+    "tmp",
+    "src/assets",
+    "public"
+  ],
+  "execMap": {
+    "js": "node --es_staging"
+  },
+  "verbose": "true"
+}

@@ -1,0 +1,25 @@
+doctype html
+html
+  head
+    title
+      block title
+      = ' '
+      | 🔒 Sentry
+    meta(charset='utf-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1')
+    meta(http-equiv='x-ua-compatible' content='ie=edge')
+    meta(name='viewport' content='width=device-width, initial-scale=1')
+    link(href='https://fonts.googleapis.com/css?family=Kadwa:700|Raleway:400,700' rel='stylesheet' type='text/css')
+    link(href='/styles/index.css' rel='stylesheet' type='text/css')
+  body
+
+    nav(class='navbar navbar-light bg-faded')
+      .container
+        a(class='navbar-brand' href='/') Sentry
+
+        ul.nav.navbar-nav.pull-right
+          li.nav-item
+            a.nav-link(href='/') Dashboard
+
+    .container
+      block content
