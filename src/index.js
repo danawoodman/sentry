@@ -1,7 +1,10 @@
 import chalk from 'chalk'
 import express from 'express'
+import fs from 'fs'
 import mongoose from 'mongoose'
+import path from 'path'
 import {
+  MODELS_PATH,
   MONGO_URI,
   PORT,
 } from './config/config'
@@ -13,6 +16,11 @@ const debug = require('debug')('sentry:index')
 process.on('unhandledRejection', (reason, p) => {
   console.error(reason.stack)
 })
+
+// Bootstrap models
+fs.readdirSync(MODELS_PATH)
+  .filter(file => file.includes('.js'))
+  .forEach(file => require(path.join(MODELS_PATH, file)))
 
 // Configure express.
 require('./config/express').default(app)

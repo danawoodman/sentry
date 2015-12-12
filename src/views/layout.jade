@@ -17,9 +17,15 @@ html
       .container
         a(class='navbar-brand' href='/') Sentry
 
-        ul.nav.navbar-nav.pull-right
+        ul.nav.navbar-nav
           li.nav-item
             a.nav-link(href='/') Dashboard
+
+        div.pull-right
+          a.btn.btn-primary.btn-sm(href='/auth/cobot/login')
+            | Authenticate with Cobot
+            = ' '
+            i.fa.fa-sign-in
 
     .container
       block content
