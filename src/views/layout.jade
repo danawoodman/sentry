@@ -25,15 +25,18 @@ html
             a.nav-link(href='/devices') Devices
 
         .navbar-text.pull-right
-          if currentAccount
+          if currentAccount && currentAccount.cobotAccessToken
             span.text-muted.p-r-1
               i.fa.fa-check
               = ' '
               | Authenticated
-            a.btn.btn-secondary-outline.btn-sm(href='/auth/cobot/login')
-              | Re-authenticate
-              = ' '
-              i.fa.fa-sign-in
+            span.btn-group
+              a.btn.btn-secondary-outline.btn-sm(href='/auth/cobot/login')
+                i.fa.fa-refresh.p-r-1
+                | Re-authenticate
+              a.btn.btn-secondary-outline.btn-sm(href='/auth/cobot/logout')
+                | Logout of Cobot
+                i.fa.fa-sign-in.p-l-1
           else
             a.btn.btn-primary.btn-sm(href='/auth/cobot/login')
               | Authenticate with Cobot

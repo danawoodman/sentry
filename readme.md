@@ -150,6 +150,10 @@ Login with Particle:
 
 ![Particle login](http://cl.ly/e4BS/Screen%20Shot%202015-12-12%20at%202.36.14%20PM.png)
 
+Authenticate with Cobot
+
+![cobot auth](http://cl.ly/e4Ce/Screen%20Shot%202015-12-12%20at%203.05.43%20PM.png)
+
 
 ## Credits
 

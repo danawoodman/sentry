@@ -5,45 +5,53 @@ block title
 
 block content
 
-  p.pull-right
-    a.btn.btn-primary-outline(href='/memberships/update')
-      i.fa.fa-refresh.p-r-1
-      = ' '
-      | Update membership list
-
-  h1 Memberships
-
-  if memberships && memberships.length
-    p Showing #{memberships.length} members.
-
-    table.table
-      thead
-        tr
-          th Name
-          th Token
-          th Active
-          th Credits
-          th Staff
-      tbody
-        for membership in memberships
-          tr
-            td
-              a(href='https://#{config.COBOT_SUBDOMAIN}.cobot.me/admin/memberships/#{membership.cobotId}' target='_blank')
-                = membership.name
-            td
-              em.text-muted= membership.accessToken
-            td
-              if membership.active
-                i.fa.fa-check.text-success
-              else
-                i.fa.fa-times.text-danger
-            td
-              if membership.unlimitedAccess
-                em.text-muted unlimited
-              else
-                = membership.availableCredits
-            td
-              if membership.staff
-                i.fa.fa-check.text-success
+  if !currentAccount || !currentAccount.cobotAccessToken
+    .row
+      .col-sm-6.col-sm-offset-3
+        h1 Authenticate with Cobot
+        p Before you can start, you need to authenticate with Cobot.
+        p
+          a.btn.btn-primary.btn-lg(href='/auth/cobot/login') Authenticate with Cobot →
   else
-    p.text-muted No memberships yet...
+    p.pull-right
+      a.btn.btn-primary-outline(href='/memberships/update')
+        i.fa.fa-refresh.p-r-1
+        = ' '
+        | Update membership list
+
+    h1 Memberships
+
+    if memberships && memberships.length
+      p Showing #{memberships.length} members.
+
+      table.table
+        thead
+          tr
+            th Name
+            th Token
+            th Active
+            th Credits
+            th Staff
+        tbody
+          for membership in memberships
+            tr
+              td
+                a(href='https://#{config.COBOT_SUBDOMAIN}.cobot.me/admin/memberships/#{membership.cobotId}' target='_blank')
+                  = membership.name
+              td
+                em.text-muted= membership.accessToken
+              td
+                if membership.active
+                  i.fa.fa-check.text-success
+                else
+                  i.fa.fa-times.text-danger
+              td
+                if membership.unlimitedAccess
+                  em.text-muted unlimited
+                else
+                  = membership.availableCredits
+              td
+                if membership.staff
+                  i.fa.fa-check.text-success
+    else
+      p.text-muted No memberships yet...

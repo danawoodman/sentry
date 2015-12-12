@@ -16,6 +16,7 @@ export default (app) => {
 
   // Cobot authentication
   app.get('/auth/cobot/login', wrap(require('../routes/auth/cobot/login').default))
+  app.get('/auth/cobot/logout', wrap(require('../routes/auth/cobot/logout').default))
   app.get('/auth/cobot/callback', wrap(require('../routes/auth/cobot/callback').default))
 
   // Particle login

@@ -14,9 +14,13 @@ const Account = mongoose.model('Account')
 
 const seed = async () => {
 
+  console.log(chalk.green('Wiping DB'))
+
   // Wipe DB
-  await Account.where({}).remove()
-  await Membership.where({}).remove()
+  await Account.remove({})
+  await Membership.remove({})
+
+  console.log(chalk.green('Seeding DB'))
 
   // Create a default account
   await Account.create({})

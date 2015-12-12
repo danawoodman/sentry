@@ -18,6 +18,24 @@
   .navbar-text {
     padding: 0.465rem 0.2rem;
   }
+
+  .btn-secondary-outline {
+    border-color: lighten($brand-purple, 35%);
+    color: lighten($brand-purple, 60%);
+
+    &:hover,
+    &:active {
+      background-color: lighten($brand-purple, 5%);
+      border-color: lighten($brand-purple, 50%);
+      color: white;
+    }
+  }
+
+  .btn-primary {
+    background-color: lighten($brand-purple, 15%);
+    border-color: lighten($brand-purple, 15%);
+    color: white;
+  }
 }
 
 
