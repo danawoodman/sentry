@@ -3,12 +3,23 @@
 @import '../../../node_modules/font-awesome/scss/font-awesome';
 
 .navbar {
+  background-color: $brand-purple;
+  color: $brand-tan;
   margin-bottom: 3rem;
+
+  .text-muted {
+    color: lighten($brand-purple, 30%);
+  }
+
+  a {
+    color: $brand-tan;
+  }
 
   .navbar-text {
     padding: 0.465rem 0.2rem;
   }
 }
+
 
 h1 {
   border-bottom: 1px solid $gray-lighter;

@@ -28,15 +28,19 @@ block content
 
   else
 
-    h1 Devices
+    .row
+      .col-sm-6.col-sm-offset-3
+        h1 Login with Particle
+        p
+          | Before you can connect any door locks, you need to authenticate with
+          = ' '
+          a(href='https://particle.io' target='_blank') Particle
 
-    h3 Login with Particle
-
-    form(action='/auth/particle/login' method='post')
-      fieldset.form-group
-        input.form-control(name='username' type='text' placeholder='Username')
-      fieldset.form-group
-        input.form-control(name='password' type='password' placeholder='Password')
-      p
-        button.btn.btn-primary(type='submit') Login →
+        form(action='/auth/particle/login' method='post')
+          fieldset.form-group
+            input.form-control(name='username' type='text' placeholder='Username')
+          fieldset.form-group
+            input.form-control(name='password' type='password' placeholder='Password')
+          p
+            button.btn.btn-primary(type='submit') Login →
 

@@ -2,12 +2,30 @@
 // Bootstrap configuration
 //----------------------------------
 
-// Colors
-$brand-primary: #74cced;
+// Color scheme: https://coolors.co/app/f2e1c1-6d4c68-2f6999-8fc6c2-eff2f1
+$brand-tan: #F2E1C1;
+$brand-purple: #6D4C68;
+$brand-blue: #2F6999;
+$brand-green: #8FC6C2;
+$brand-white: #EFF2F1;
+$brand-primary: $brand-blue;
+$brand-info: lighten($brand-blue, 15%);
+$brand-danger: #bc4040;
+$gray: darken($brand-white, 50%);
+$gray-light: darken($brand-white, 20%);
+$gray-lighter: darken($brand-white, 5%);
 
-// Fonts
-$font-family-sans-serif: 'Raleway', sans-serif;
-$font-family-serif: 'Kadwa', serif;
+// Colors
+$body-bg: $brand-white;
+$body-color: darken($brand-purple, 30%);
+
+// State
+$state-success-bg: $brand-green;
+$state-success-text: lighten($state-success-bg, 40%);
+$state-danger-bg: $brand-danger;
+$state-danger-text: lighten($state-danger-bg, 40%);
+$state-info-bg: $brand-info;
+$state-info-text: lighten($state-info-bg, 40%);
 
 // General type
 $line-height: 1.6;
@@ -16,20 +34,36 @@ $display2-weight: 400;
 $display3-weight: 400;
 $display4-weight: 400;
 
+// Font families
+$font-family-sans-serif: 'Raleway', sans-serif;
+
+// Spacing
+$spacer: 0.75rem;
+
+// Navbar
+$navbar-dark-color: $brand-tan;
+$navbar-border-radius: 0;
+
+// Headings
+$headings-font-family: $font-family-sans-serif;
+$headings-font-weight: 100;
+$headings-color: black;
+$font-size-h1: 2.5rem;
+$font-size-h3: 1.5rem;
+
 // Forms
-$input-border-radius: 1px;
+$input-border-radius: 0;
 
 // Buttons
 $btn-border-radius: 20px;
 $btn-border-radius-sm: $btn-border-radius;
 $btn-border-radius-lg: 30px;
+$btn-secondary-border: darken($brand-tan, 25%);
 
-// Headings
-$headings-font-family: $font-family-sans-serif;
-$headings-font-weight: 200;
-$headings-color: black;
-$font-size-h1: 2.5rem;
-$font-size-h3: 1.5rem;
+// Alerts
+$alert-padding: 0.75rem 2rem;
+$alert-border-radius: 0;
+$alert-border-width: 0;
 
 
 //----------------------------------

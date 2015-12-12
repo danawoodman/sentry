@@ -7,7 +7,7 @@ block content
 
   p.pull-right
     a.btn.btn-primary-outline(href='/memberships/update')
-      i.fa.fa-refresh
+      i.fa.fa-refresh.p-r-1
       = ' '
       | Update membership list
 
@@ -30,7 +30,8 @@ block content
             td
               a(href='https://#{config.COBOT_SUBDOMAIN}.cobot.me/admin/memberships/#{membership.cobotId}' target='_blank')
                 = membership.name
-            td= membership.accessToken
+            td
+              em.text-muted= membership.accessToken
             td
               if membership.active
                 i.fa.fa-check.text-success

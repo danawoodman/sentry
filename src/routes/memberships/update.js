@@ -94,6 +94,6 @@ export default async (req, res) => {
   // Clean out any blank records.
   membersWithTokens = _.pull(membersWithTokens, null)
 
-  req.flash('info', `${membersWithTokens .length} memberships updated`)
+  req.flash('success', `${membersWithTokens .length} memberships updated`)
   res.redirect('/')
 }
