@@ -6,6 +6,10 @@ const schema = new mongoose.Schema({
     type: String,
   },
 
+  particleAccessToken: {
+    type: String,
+  },
+
 }, { timestamps: true })
 
 mongoose.model('Account', schema, 'accounts')

@@ -1,0 +1,42 @@
+extends ../layout.jade
+
+block title
+  | Devices
+
+block content
+
+  // Connected to Particle
+  if currentAccount.particleAccessToken
+
+    a.btn.btn-secondary-outline.pull-right(href='/auth/particle/logout') Logout of Particle →
+
+    h1 Devices
+
+    if devices.length
+      table.table
+        thead
+          tr
+            th Name
+            th ID
+        tbody
+          for device in devices
+            tr
+              td= device.name
+              td= device.id
+    else
+      p.text-muted No devices available...
+
+  else
+
+    h1 Devices
+
+    h3 Login with Particle
+
+    form(action='/auth/particle/login' method='post')
+      fieldset.form-group
+        input.form-control(name='username' type='text' placeholder='Username')
+      fieldset.form-group
+        input.form-control(name='password' type='password' placeholder='Password')
+      p
+        button.btn.btn-primary(type='submit') Login →
+

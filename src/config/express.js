@@ -1,4 +1,4 @@
-//import bodyParser from 'body-parser'
+import bodyParser from 'body-parser'
 import cookieSession from 'cookie-session'
 import currentAccount from '../middlewares/current-account'
 import express from 'express'
@@ -40,5 +40,5 @@ export default (app) => {
   app.use(currentAccount())
   app.use(templateLocals())
 
-  //app.use(bodyParser.urlencoded({ extended: true }))
+  app.use(bodyParser.urlencoded({ extended: true }))
 }
