@@ -4,9 +4,10 @@
 import chalk from 'chalk'
 import mongoose from 'mongoose'
 import connect from '../src/lib/mongo-connect'
+import bootstrapModels from '../src/lib/bootstrap-models'
 
-// Bootstrap models
-require('../src/lib/bootstrap-models').default()
+// Load up all the mongoose schemas.
+bootstrapModels()
 
 const Membership = mongoose.model('Membership')
 const Account = mongoose.model('Account')
