@@ -5,6 +5,15 @@
 // Test event command:
 //   particle publish sentry/update-members $'0000000001\t1\tWelcome\n0000000002\t0\tGet lost, Joker'
 
+#include "LiquidCrystal.h"
+
+#define LCD_RS D6
+#define LCD_EN D5
+#define LCD_DB4 D1
+#define LCD_DB5 D2
+#define LCD_DB6 D3
+#define LCD_DB7 D4
+
 #define LED_PIN D7
 #define MAX_CARDS 1000
 
@@ -18,15 +27,28 @@ typedef struct {
 // Array of cards.
 Card cards[MAX_CARDS];
 
+// The display and how it's wired.
+LiquidCrystal lcd(LCD_RS, LCD_EN, LCD_DB4, LCD_DB5, LCD_DB6, LCD_DB7);
+
 // Number of cards in memory right now.
 uint numCards = 0;
 
 void setup() {
-  Particle.subscribe("sentry/update-members", updateMembers);
   pinMode(LED_PIN, OUTPUT);
+  Particle.subscribe("sentry/update-members", updateMembers);
+  lcd.begin(16, 2);
+  resetLCD();
 }
 
-void loop() {}
+void loop() {
+}
+
+void resetLCD() {
+  lcd.clear();
+  lcd.print("SENTRY");
+  lcd.setCursor(0, 1);
+  lcd.print("  online");
+}
 
 // Accept data in tab delineated CSV format, where each row is:
 //
@@ -74,9 +96,28 @@ void updateMembers(const char *event, const char *data) {
   }
 
   flashDebugLEDs();
+  // showUpdatedMembersOnLCD();
 }
 
 // TEMP
+//
+void showUpdatedMembersOnLCD() {
+  lcd.clear();
+  lcd.print("UPDATE!");
+  lcd.setCursor(0, 1);
+  lcd.print("  Got ");
+  lcd.print(numCards);
+  lcd.print(" cards.");
+  delay(3000);
+
+  for (int i = 0; i < numCards; i++) {
+    lcd.clear();
+    lcd.print(cards[i].greeting);
+    delay(3000);
+  }
+
+  resetLCD();
+}
 void flashDebugLEDs() {
   for (int i = 0; i < numCards; i++) {
     digitalWrite(LED_PIN, HIGH);
