@@ -1,0 +1,29 @@
+//#!/usr/bin/env node
+
+import chalk from 'chalk'
+import connect from '../src/lib/mongo-connect'
+import updateMemberships from '../src/lib/update-memberships'
+
+const sync = async () => {
+  const Account = require('mongoose').model('Account')
+
+  try {
+
+    // Update memberships for every account in the system.
+    const accounts = await Account.where({})
+    await* accounts.map(async (a) => await updateMemberships(a))
+
+    console.log(chalk.green(`Updated memberships for ${accounts.length} accounts`))
+
+    process.exit(0)
+  } catch(err) {
+    console.log(chalk.red('Error syncing memberships:'), err.message, err.stack)
+    process.exit(1)
+  }
+}
+
+// Connect to mongo and then seed
+connect()
+  .on('error', console.error)
+  .on('disconnected', connect)
+  .once('open', sync)

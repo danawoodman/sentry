@@ -2,17 +2,12 @@
  * Wipe and seed database with sample data.
  */
 import chalk from 'chalk'
-import mongoose from 'mongoose'
 import connect from '../src/lib/mongo-connect'
-import bootstrapModels from '../src/lib/bootstrap-models'
-
-// Load up all the mongoose schemas.
-bootstrapModels()
-
-const Membership = mongoose.model('Membership')
-const Account = mongoose.model('Account')
 
 const seed = async () => {
+
+  const Membership = require('mongoose').model('Membership')
+  const Account = require('mongoose').model('Account')
 
   console.log(chalk.green('Wiping DB'))
 
