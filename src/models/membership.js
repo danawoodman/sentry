@@ -27,6 +27,7 @@ const schema = new mongoose.Schema({
   },
 
   name: {
+    default: 'unnamed',
     type: String,
   },
 

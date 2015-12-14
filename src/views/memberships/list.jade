@@ -27,6 +27,7 @@ block content
       table.table
         thead
           tr
+            th
             th Name
             th Token
             th Plan
@@ -37,7 +38,15 @@ block content
           for membership in memberships
             tr
               td
-                a(href='https://#{config.COBOT_SUBDOMAIN}.cobot.me/admin/memberships/#{membership.cobotId}' target='_blank')
+                img.img-rounded(
+                  src='https://#{config.COBOT_SUBDOMAIN}.cobot.me/api/memberships/#{membership.cobotId}/picture'
+                  height='24' width='24'
+                )
+              td
+                a(
+                  href='https://#{config.COBOT_SUBDOMAIN}.cobot.me/admin/memberships/#{membership.cobotId}'
+                  target='_blank'
+                )
                   = membership.name
               td
                 em.text-muted= membership.accessToken
