@@ -1,8 +1,9 @@
 {
   "ignore": [
-    "tmp",
+    "public",
+    "scripts",
     "src/assets",
-    "public"
+    "tmp"
   ],
   "execMap": {
     "js": "node --es_staging"
