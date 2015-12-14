@@ -32,12 +32,14 @@ const seed = async () => {
     availableCredits: 10,
     cobotId: 'a',
     name: 'Credit Person',
+    plan: 'Day Use Member',
   })
   await Membership.create({
     accessToken: 'bbb',
     active: false,
     cobotId: 'b',
     name: 'Inactive Dude',
+    plan: 'Day Use Member',
   })
   await Membership.create({
     accessToken: 'ccc',
@@ -45,6 +47,7 @@ const seed = async () => {
     cobotId: 'c',
     name: 'Staff Lady',
     staff: true,
+    plan: 'Staff Member',
   })
   await Membership.create({
     accessToken: 'ddd',
@@ -52,6 +55,7 @@ const seed = async () => {
     cobotId: 'd',
     name: 'Unlimited Guy',
     unlimitedAccess: true,
+    plan: 'Basic Member',
   })
 
   console.log(chalk.green('Wiped and seeded database!'))

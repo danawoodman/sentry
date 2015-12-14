@@ -24,6 +24,10 @@ const schema = new mongoose.Schema({
     type: String,
   },
 
+  plan: {
+    type: String,
+  },
+
   staff: {
     default: false,
     type: Boolean,

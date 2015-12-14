@@ -1,7 +1,7 @@
-extends ./layout.jade
+extends ../layout.jade
 
 block title
-  | Dashboard
+  | Memberships
 
 block content
 
@@ -29,6 +29,7 @@ block content
           tr
             th Name
             th Token
+            th Plan
             th Active
             th Credits
             th Staff
@@ -40,6 +41,8 @@ block content
                   = membership.name
               td
                 em.text-muted= membership.accessToken
+              td
+                em.text-muted= membership.plan
               td
                 if membership.active
                   i.fa.fa-check.text-success

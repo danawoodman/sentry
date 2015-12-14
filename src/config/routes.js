@@ -30,5 +30,5 @@ export default (app) => {
   app.get('/devices', wrap(require('../routes/devices/list').default))
 
   // Default route.
-  app.get('/', wrap(require('../routes/home').default))
+  app.get('/', wrap(require('../routes/memberships/list').default))
 }

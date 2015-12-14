@@ -54,8 +54,9 @@ export default async (req, res) => {
     const cobotId = membership.id
     let active = false
     const name = membership.name
-    const staff = staffPlans.includes(membership.plan.name)
-    const unlimitedAccess = unlimitedPlans.includes(membership.plan.name)
+    const plan = membership.plan.name
+    const staff = staffPlans.includes(plan)
+    const unlimitedAccess = unlimitedPlans.includes(plan)
     let availableCredits = null
 
     if (membership.time_passes) {
@@ -84,6 +85,7 @@ export default async (req, res) => {
         active,
         availableCredits,
         name,
+        plan,
         staff,
         unlimitedAccess,
       },
