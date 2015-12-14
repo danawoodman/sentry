@@ -1,6 +1,6 @@
 import path from 'path'
 
-require('dotenv').load()
+require('dotenv').load({ silent: true })
 
 const env = process.env
 
