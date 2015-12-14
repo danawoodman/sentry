@@ -1,6 +1,5 @@
 import chalk from 'chalk'
 import connect from './lib/mongo-connect'
-import errorHandler from './middlewares/error-handler'
 import express from 'express'
 import { PORT } from './config/config'
 
@@ -12,21 +11,19 @@ process.on('unhandledRejection', (reason, p) => {
   console.error(reason.stack)
 })
 
-// Bootstrap models
-require('./lib/bootstrap-models').default()
-
-// Configure express.
-require('./config/express').default(app)
-
-// Bootstrap routes.
-require('./config/routes').default(app)
-
-// Error handling. This has to be at the
-// end to catch errors.
-app.use(errorHandler())
-
 // Run the app server.
-const listen = () => {
+const run = () => {
+
+  // Configure express.
+  require('./config/express').default(app)
+
+  // Bootstrap routes.
+  require('./config/routes').default(app)
+
+  // Error handling. This has to be at the
+  // end to catch errors.
+  app.use(require('./middlewares/error-handler').default())
+
   const server = app.listen(PORT, () => {
     const host = server.address().address
     const port = server.address().port
@@ -39,4 +36,4 @@ const listen = () => {
 connect()
   .on('error', console.error)
   .on('disconnected', connect)
-  .once('open', listen)
+  .once('open', run)

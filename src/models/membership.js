@@ -1,9 +1,15 @@
 import mongoose from 'mongoose'
 
+const ObjectId = mongoose.Schema.Types.ObjectId
+
 const schema = new mongoose.Schema({
 
   accessToken: {
     type: String,
+  },
+
+  accountId: {
+    type: ObjectId,
   },
 
   active: {

@@ -7,11 +7,16 @@ const debug = require('debug')('sentry:lib:update-memberships')
 
 export default async (account) => {
 
+  debug('updating memberships for account', account)
+
   const Membership = mongoose.model('Membership')
+  const accountId = account.id
   const subdomain = config.COBOT_SUBDOMAIN
   const staffPlans = config.COBOT_STAFF_PLANS
   const unlimitedPlans = config.COBOT_UNLIMITED_PLANS
   const accessToken = account.cobotAccessToken
+
+  debug('cobot subdomain', subdomain)
 
   // TODO: Move to cobot lib
   const tokens = await request({
@@ -19,6 +24,8 @@ export default async (account) => {
     json: true,
     uri: `https://${subdomain}.cobot.me/api/check_in_tokens`,
   })
+
+  debug('list of checkin tokens', tokens)
 
   // TODO: Move to cobot lib
   const memberships = await request({
@@ -29,7 +36,12 @@ export default async (account) => {
   })
 
   debug('list of memberships', memberships)
-  debug('list of checkin tokens', tokens)
+
+  // If we've gotten this far, wipe the existing list of memberships
+  // so we have a fresh list. If we don't do this, then there could
+  // be orphan memberships that were removed from Cobot but are
+  // still in our system.
+  await Membership.remove({ accountId })
 
   // For every member, find or update the member in our local
   // database and figure out their current status.
@@ -44,7 +56,7 @@ export default async (account) => {
       return null
     }
 
-    debug('adding/updating member', membership)
+    debug('creating membership', membership)
 
     const cobotId = membership.id
     let active = false
@@ -55,6 +67,7 @@ export default async (account) => {
     let availableCredits = null
 
     if (membership.time_passes) {
+
       debug('user has time passes', cobotId)
 
       // Fetch all the membership's unused time passes.
@@ -78,6 +91,7 @@ export default async (account) => {
       { cobotId },
       {
         accessToken: token.token,
+        accountId,
         active,
         availableCredits,
         name,

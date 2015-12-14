@@ -9,20 +9,21 @@ const seed = async () => {
   const Membership = require('mongoose').model('Membership')
   const Account = require('mongoose').model('Account')
 
-  console.log(chalk.green('Wiping DB'))
+  console.log(chalk.gray('Wiping DB'))
 
   // Wipe DB
   await Account.remove({})
   await Membership.remove({})
 
-  console.log(chalk.green('Seeding DB'))
+  console.log(chalk.gray('Seeding DB'))
 
   // Create a default account
-  await Account.create({})
+  const account = await Account.create({})
 
   // Create some members
   await Membership.create({
     accessToken: 'aaa',
+    accountId: account.id,
     active: true,
     availableCredits: 10,
     cobotId: 'a',
@@ -31,6 +32,7 @@ const seed = async () => {
   })
   await Membership.create({
     accessToken: 'bbb',
+    accountId: account.id,
     active: false,
     cobotId: 'b',
     name: 'Inactive Dude',
@@ -38,6 +40,7 @@ const seed = async () => {
   })
   await Membership.create({
     accessToken: 'ccc',
+    accountId: account.id,
     active: true,
     cobotId: 'c',
     name: 'Staff Lady',
@@ -46,6 +49,7 @@ const seed = async () => {
   })
   await Membership.create({
     accessToken: 'ddd',
+    accountId: account.id,
     active: true,
     cobotId: 'd',
     name: 'Unlimited Guy',
@@ -54,7 +58,7 @@ const seed = async () => {
   })
 
   console.log(chalk.green('Wiped and seeded database!'))
-  process.exit(0)
+  process.exit()
 }
 
 // Connect to mongo and then seed

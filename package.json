@@ -45,6 +45,7 @@
   "scripts": {
     "seed": "babel-node scripts/seed",
     "start": "babel-node src/index",
+    "sync-memberships": "babel-node scripts/sync-memberships",
     "test": "mocha",
     "watch": "nodemon --exec npm start",
     "watch-test": "npm test -- -w"
