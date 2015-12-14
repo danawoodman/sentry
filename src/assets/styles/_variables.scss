@@ -11,9 +11,9 @@ $brand-white: #EFF2F1;
 $brand-primary: $brand-blue;
 $brand-info: lighten($brand-blue, 15%);
 $brand-danger: #bc4040;
-$gray: darken($brand-white, 50%);
-$gray-light: darken($brand-white, 20%);
-$gray-lighter: darken($brand-white, 5%);
+$gray: darken($brand-white, 60%);
+$gray-light: darken($brand-white, 40%);
+$gray-lighter: darken($brand-white, 7%);
 
 // Colors
 $body-bg: $brand-white;
