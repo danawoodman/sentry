@@ -28,6 +28,7 @@ export default (app) => {
 
   // Devices
   app.get('/devices', wrap(require('../routes/devices/list').default))
+  app.post('/devices/:deviceId/flash', wrap(require('../routes/devices/flash').default))
 
   // Default route.
   app.get('/', wrap(require('../routes/memberships/list').default))

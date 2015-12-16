@@ -20,6 +20,7 @@ block content
             th Connected
             th ID
             th Last Communication
+            th
         tbody
           for device in devices
             tr
@@ -33,6 +34,11 @@ block content
                 em.text-muted= device.id
               td
                 time.help(datetime=device.lastHeard title=device.lastHeard)= moment(device.lastHeard).fromNow()
+              td
+                form(action='/devices/#{device.id}/flash' method='post')
+                  button.btn.btn-secondary-outline.btn-sm(type='submit')
+                    i.fa.fa-flash.p-r-1
+                    | Flash
     else
       p.text-muted No devices available...
 

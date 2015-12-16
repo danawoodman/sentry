@@ -82,7 +82,10 @@ export default async (account) => {
     }
 
     // Indicate if the person is considered active.
-    // TODO: get their membership status somehow
+    // TODO: get their membership status somehow. If they
+    // are past due on an unlimited plan, they are not
+    // considered active. Staff are always considered
+    // active.
     if (staff || unlimitedAccess || availableCredits > 0) {
       active = true
     }

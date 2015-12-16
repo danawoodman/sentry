@@ -14,10 +14,13 @@ export const ADMIN_USERNAME = env.ADMIN_USERNAME || 'admin'
 export const ADMIN_PASSWORD = env.ADMIN_PASSWORD || 'password'
 
 // Paths
-export const VIEWS_PATH = path.join(__dirname, '..', 'views')
-export const MODELS_PATH = path.join(__dirname, '..', 'models')
-export const PUBLIC_PATH = path.join(__dirname, '..', '..', 'public')
-export const ASSETS_PATH = path.join(__dirname, '..', 'assets')
+export const ROOT_PATH = path.join(__dirname, '..', '..')
+export const SOURCE_PATH = path.join(__dirname, '..')
+export const VIEWS_PATH = path.join(SOURCE_PATH, 'views')
+export const MODELS_PATH = path.join(SOURCE_PATH, 'models')
+export const ASSETS_PATH = path.join(SOURCE_PATH, 'assets')
+export const PUBLIC_PATH = path.join(ROOT_PATH, 'public')
+export const INSTALLER_PATH = './firmware/sentry.ino'
 
 // Cobot
 export const COBOT_SUBDOMAIN = env.COBOT_SUBDOMAIN

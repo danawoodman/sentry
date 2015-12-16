@@ -11,12 +11,6 @@ export default (app) => {
 
   const notProduction = config.NODE_ENV !== 'production'
 
-  // Make configuration available in routes.
-  app.use((req, res, next) => {
-    res.locals.config = config
-    next()
-  })
-
   // View configuration.
   app.set('views', config.VIEWS_PATH)
   app.set('view engine', 'jade')
