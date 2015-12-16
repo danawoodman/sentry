@@ -17,9 +17,12 @@
 #define LED_PIN D7
 #define MAX_CARDS 1000
 
+// Dont demand wifi before our code starts running.
+SYSTEM_MODE(MANUAL);
+
 // Represents a card, including how to identify it and what to do when it's scanned.
 typedef struct {
-  char* rfid; // the code from the reader
+  int rfid; // the code from the reader
   bool allow; // true if allowed in, false if not
   char* greeting; // Text that will be shown the card owner when scanned
 } Card;
@@ -33,14 +36,96 @@ LiquidCrystal lcd(LCD_RS, LCD_EN, LCD_DB4, LCD_DB5, LCD_DB6, LCD_DB7);
 // Number of cards in memory right now.
 uint numCards = 0;
 
+// Are we connected to the Particle cloud.
+bool connected = false;
+bool connecting = false;
+
 void setup() {
+  Serial.begin(9600);
+  Serial1.begin(9600);
+
   pinMode(LED_PIN, OUTPUT);
+
   Particle.subscribe("sentry/update-members", updateMembers);
+
   lcd.begin(16, 2);
-  resetLCD();
+  lcd.print("Connecting...");
+
+  // resetLCD();
 }
 
 void loop() {
+  checkCardReader();
+  manageParticleConnection();
+}
+
+void checkCardReader() {
+  uint8_t i = 0;
+  char hexcode[9];
+  int result;
+
+  if (Serial1.available() > 0) {
+    delay(20); // Let the buffer fil up for a jif
+
+    while (Serial1.available() > 0) {
+      // First three bytes are the header, last 3 bytes are the footer.
+      if (i < 3 || i >= 11) {
+        Serial1.read();
+
+      // 8 bytes of meat.
+      } else {
+        hexcode[i-3] = Serial1.read();
+      }
+
+      // Next byte.
+      i++;
+    }
+
+    // Convert hex string to an integer.
+    result = (int)strtol(hexcode, NULL, 16);
+
+    // Take actions based on the card scanned.
+    checkCode(result);
+  }
+}
+
+void manageParticleConnection() {
+  // Connected, last we knew.
+  if (connected) {
+
+    // Process particle events.
+    Particle.process();
+
+    // If we were connecting, we are aren't anymore.
+    if (connecting) {
+      connecting = false;
+    }
+
+    // If we are no longer connected, record that state.
+    if (!Particle.connected()) {
+      connected = false;
+      connecting = false;
+      lcd.clear();
+      lcd.print("Connecting...");
+    }
+
+  // Not connected, last we knew.
+  } else {
+
+    // Does Partcile say we're connected? record that state.
+    if (Particle.connected()) {
+      connected = true;
+      connecting = false;
+      resetLCD();
+
+    // Not connected, and not connecting, so lets try to connect.
+    } else if (!connecting) {
+      Particle.connect();
+      connecting = true;
+      lcd.clear();
+      lcd.print("Connecting...");
+    }
+  }
 }
 
 void resetLCD() {
@@ -78,7 +163,7 @@ void updateMembers(const char *event, const char *data) {
 
   // Loop until we are out of tokens.
   while (token != NULL) {
-    if      (fieldIdx == 0) cards[numCards].rfid = token;
+    if      (fieldIdx == 0) cards[numCards].rfid = atoi(token);
     else if (fieldIdx == 1) cards[numCards].allow = (strcmp(token, "1") == 0);
     else if (fieldIdx == 2) cards[numCards].greeting = token;
 
@@ -95,29 +180,44 @@ void updateMembers(const char *event, const char *data) {
     }
   }
 
-  flashDebugLEDs();
-  // showUpdatedMembersOnLCD();
+  // flashDebugLEDs();
+  showUpdatedMembersOnLCD();
+}
+
+void checkCode(int code) {
+  Card card;
+
+  lcd.clear();
+
+  for (int i = 0; i < numCards; i++) {
+    card = cards[i];
+    if (card.rfid == code) {
+      lcd.print(card.greeting);
+      delay(3000);
+      resetLCD();
+      return;
+    }
+  }
+
+  lcd.print(" ACCESS  DENIED ");
+  delay(3000);
+  resetLCD();
 }
 
 // TEMP
 //
 void showUpdatedMembersOnLCD() {
   lcd.clear();
-  lcd.print("UPDATE!");
+  lcd.print("     UPDATE!    ");
   lcd.setCursor(0, 1);
   lcd.print("  Got ");
   lcd.print(numCards);
   lcd.print(" cards.");
-  delay(3000);
-
-  for (int i = 0; i < numCards; i++) {
-    lcd.clear();
-    lcd.print(cards[i].greeting);
-    delay(3000);
-  }
+  delay(2000);
 
   resetLCD();
 }
+
 void flashDebugLEDs() {
   for (int i = 0; i < numCards; i++) {
     digitalWrite(LED_PIN, HIGH);
