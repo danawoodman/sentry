@@ -215,7 +215,7 @@ void showUpdatedMembersOnLCD() {
   lcd.print("Has");
   lcd.print(numCards);
   lcd.print(" cards.");
-  delay(2000);
+  delay(500);
 
   resetLCD();
 }
