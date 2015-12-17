@@ -14,6 +14,10 @@
 #define LCD_DB6 D3
 #define LCD_DB7 D4
 
+#define LCD_BL_R A0
+#define LCD_BL_G A2
+#define LCD_BL_B A1
+
 #define LED_PIN D7
 #define MAX_CARDS 1000
 
@@ -45,6 +49,13 @@ void setup() {
   Serial1.begin(9600);
 
   pinMode(LED_PIN, OUTPUT);
+  pinMode(LCD_BL_R, OUTPUT);
+  pinMode(LCD_BL_G, OUTPUT);
+  pinMode(LCD_BL_B, OUTPUT);
+
+  digitalWrite(LCD_BL_R, HIGH);
+  digitalWrite(LCD_BL_G, HIGH);
+  digitalWrite(LCD_BL_B, LOW);
 
   Particle.subscribe("sentry/wipe-members", wipeMembers);
   Particle.subscribe("sentry/append-members", appendMembers);
@@ -134,6 +145,10 @@ void resetLCD() {
   lcd.print("SENTRY");
   lcd.setCursor(0, 1);
   lcd.print("  online");
+
+  digitalWrite(LCD_BL_R, HIGH);
+  digitalWrite(LCD_BL_G, HIGH);
+  digitalWrite(LCD_BL_B, LOW);
 }
 
 // Accept data in tab delineated CSV format, where each row is:
@@ -195,6 +210,11 @@ void checkCode(int code) {
     card = cards[i];
     if (card.rfid == code) {
       lcd.print(card.greeting);
+
+      digitalWrite(LCD_BL_R, HIGH);
+      digitalWrite(LCD_BL_G, LOW);
+      digitalWrite(LCD_BL_B, HIGH);
+
       delay(3000);
       resetLCD();
       return;
@@ -202,7 +222,11 @@ void checkCode(int code) {
   }
 
   lcd.print(" ACCESS  DENIED ");
+  digitalWrite(LCD_BL_R, LOW);
+  digitalWrite(LCD_BL_G, HIGH);
+  digitalWrite(LCD_BL_B, HIGH);
   delay(3000);
+
   resetLCD();
 }
 
