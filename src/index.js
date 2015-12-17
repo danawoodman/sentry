@@ -4,10 +4,9 @@ import express from 'express'
 import { PORT } from './config/config'
 
 const app = express()
-const debug = require('debug')('sentry:index')
 
 // Handle process exceptions.
-process.on('unhandledRejection', (reason, p) => {
+process.on('unhandledRejection', (reason) => {
   console.error(reason.stack)
 })
 

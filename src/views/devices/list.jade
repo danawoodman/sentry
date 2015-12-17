@@ -8,7 +8,11 @@ block content
   // Connected to Particle
   if currentAccount.particleAccessToken
 
-    a.btn.btn-secondary-outline.pull-right(href='/auth/particle/logout') Logout of Particle →
+    .pull-right
+      a.btn.btn-primary.m-r-1(href='/devices/publish')
+        i.fa.fa-refresh.p-r-1
+        | Publish devices member list
+      a.btn.btn-secondary-outline(href='/auth/particle/logout') Logout of Particle →
 
     h1 Devices
 
