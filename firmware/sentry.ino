@@ -153,9 +153,6 @@ void appendMembers(const char *event, const char *data) {
   // Split the data on tabs and new lines, since we know each row has 3 fields.
   const char delim[3] = "\t\n";
 
-  // Reset the card count.
-  numCards = 0;
-
   // Loop this from 0 to 2 so we know which of the 3 card fields we're processing.
   int fieldIdx = 0;
 
