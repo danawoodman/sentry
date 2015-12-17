@@ -46,7 +46,8 @@ void setup() {
 
   pinMode(LED_PIN, OUTPUT);
 
-  Particle.subscribe("sentry/update-members", updateMembers);
+  Particle.subscribe("sentry/wipe-members", wipeMembers);
+  Particle.subscribe("sentry/append-members", appendMembers);
 
   lcd.begin(16, 2);
   lcd.print("Connecting...");
@@ -147,7 +148,7 @@ void resetLCD() {
 // * rfid: string rfid code. Max 32 characters.
 // * allow: 1 if the card access, 0 if it does not.
 // * greeting: string that will be shown when the card is scanned. Max 32 characters.
-void updateMembers(const char *event, const char *data) {
+void appendMembers(const char *event, const char *data) {
 
   // Split the data on tabs and new lines, since we know each row has 3 fields.
   const char delim[3] = "\t\n";
@@ -184,6 +185,10 @@ void updateMembers(const char *event, const char *data) {
   showUpdatedMembersOnLCD();
 }
 
+void wipeMembers(const char *event, const char *data) {
+  numCards = 0;
+}
+
 void checkCode(int code) {
   Card card;
 
@@ -208,9 +213,9 @@ void checkCode(int code) {
 //
 void showUpdatedMembersOnLCD() {
   lcd.clear();
-  lcd.print("     UPDATE!    ");
+  lcd.print("UPDATE!");
   lcd.setCursor(0, 1);
-  lcd.print("  Got ");
+  lcd.print("Has");
   lcd.print(numCards);
   lcd.print(" cards.");
   delay(2000);
