@@ -6,6 +6,7 @@
 //   particle publish sentry/update-members $'0000000001\t1\tWelcome\n0000000002\t0\tGet lost, Joker'
 
 #include "LiquidCrystal.h"
+#include "RFID.h"
 
 #define LCD_RS D6
 #define LCD_EN D5
@@ -37,6 +38,9 @@ Card cards[MAX_CARDS];
 // The display and how it's wired.
 LiquidCrystal lcd(LCD_RS, LCD_EN, LCD_DB4, LCD_DB5, LCD_DB6, LCD_DB7);
 
+// RFID Reader Interface
+RFID rfid = RFID();
+
 // Number of cards in memory right now.
 uint numCards = 0;
 
@@ -46,7 +50,7 @@ bool connecting = false;
 
 void setup() {
   Serial.begin(9600);
-  Serial1.begin(9600);
+  rfid.begin();
 
   pinMode(LED_PIN, OUTPUT);
   pinMode(LCD_BL_R, OUTPUT);
@@ -62,43 +66,13 @@ void setup() {
 
   lcd.begin(16, 2);
   lcd.print("Connecting...");
-
-  // resetLCD();
 }
 
 void loop() {
-  checkCardReader();
-  manageParticleConnection();
-}
-
-void checkCardReader() {
-  uint8_t i = 0;
-  char hexcode[9];
-  int result;
-
-  if (Serial1.available() > 0) {
-    delay(20); // Let the buffer fil up for a jif
-
-    while (Serial1.available() > 0) {
-      // First three bytes are the header, last 3 bytes are the footer.
-      if (i < 3 || i >= 11) {
-        Serial1.read();
-
-      // 8 bytes of meat.
-      } else {
-        hexcode[i-3] = Serial1.read();
-      }
-
-      // Next byte.
-      i++;
-    }
-
-    // Convert hex string to an integer.
-    result = (int)strtol(hexcode, NULL, 16);
-
-    // Take actions based on the card scanned.
-    checkCode(result);
+  if (rfid.checkCardReader()) {
+    checkCode(rfid.code);
   }
+  manageParticleConnection();
 }
 
 void manageParticleConnection() {
@@ -192,9 +166,6 @@ void appendMembers(const char *event, const char *data) {
       numCards++;
     }
   }
-
-  // flashDebugLEDs();
-  showUpdatedMembersOnLCD();
 }
 
 void wipeMembers(const char *event, const char *data) {
@@ -209,55 +180,46 @@ void checkCode(int code) {
   for (int i = 0; i < numCards; i++) {
     card = cards[i];
     if (card.rfid == code) {
-      lcd.print(card.greeting);
-
-      digitalWrite(LCD_BL_R, HIGH);
-      digitalWrite(LCD_BL_G, LOW);
-      digitalWrite(LCD_BL_B, HIGH);
-
-      delay(3000);
-      resetLCD();
+      if (card.allow) {
+        allowCard(card.greeting);
+      } else {
+        denyCard(card.greeting);
+      }
       return;
     }
   }
 
+  denyUnknownCard();
+}
+
+void allowCard(char* greeting) {
+  lcd.print(greeting);
+
+  digitalWrite(LCD_BL_R, HIGH);
+  digitalWrite(LCD_BL_G, LOW);
+  digitalWrite(LCD_BL_B, HIGH);
+
+  delay(3000);
+  resetLCD();
+}
+
+void denyCard(char* greeting) {
+  lcd.print(greeting);
+
+  digitalWrite(LCD_BL_R, LOW);
+  digitalWrite(LCD_BL_G, HIGH);
+  digitalWrite(LCD_BL_B, HIGH);
+
+  delay(3000);
+  resetLCD();
+}
+
+void denyUnknownCard() {
   lcd.print(" ACCESS  DENIED ");
   digitalWrite(LCD_BL_R, LOW);
   digitalWrite(LCD_BL_G, HIGH);
   digitalWrite(LCD_BL_B, HIGH);
+
   delay(3000);
-
   resetLCD();
-}
-
-// TEMP
-//
-void showUpdatedMembersOnLCD() {
-  lcd.clear();
-  lcd.print("UPDATE!");
-  lcd.setCursor(0, 1);
-  lcd.print("Has");
-  lcd.print(numCards);
-  lcd.print(" cards.");
-  delay(500);
-
-  resetLCD();
-}
-
-void flashDebugLEDs() {
-  for (int i = 0; i < numCards; i++) {
-    digitalWrite(LED_PIN, HIGH);
-    delay(800);
-    digitalWrite(LED_PIN, LOW);
-    delay(200);
-  }
-
-  delay(1000);
-
-  for (int i = 0; i < strlen(cards[1].greeting); i++) {
-    digitalWrite(LED_PIN, HIGH);
-    delay(100);
-    digitalWrite(LED_PIN, LOW);
-    delay(300);
-  }
 }
