@@ -29,7 +29,7 @@ SYSTEM_MODE(MANUAL);
 typedef struct {
   int rfid; // the code from the reader
   bool allow; // true if allowed in, false if not
-  char* greeting; // Text that will be shown the card owner when scanned
+  char greeting[16]; // Text that will be shown the card owner when scanned
 } Card;
 
 // Array of cards.
@@ -63,6 +63,7 @@ void setup() {
 
   Particle.subscribe("sentry/wipe-members", wipeMembers);
   Particle.subscribe("sentry/append-members", appendMembers);
+  Particle.publish("sentry/request-members");
 
   lcd.begin(16, 2);
   lcd.print("Connecting...");
@@ -152,7 +153,7 @@ void appendMembers(const char *event, const char *data) {
   while (token != NULL) {
     if      (fieldIdx == 0) cards[numCards].rfid = atoi(token);
     else if (fieldIdx == 1) cards[numCards].allow = (strcmp(token, "1") == 0);
-    else if (fieldIdx == 2) cards[numCards].greeting = token;
+    else if (fieldIdx == 2) strcpy(cards[numCards].greeting, token);
 
     // Get the next token.
     token = strtok(NULL, delim);
@@ -173,8 +174,11 @@ void wipeMembers(const char *event, const char *data) {
 }
 
 void checkCode(int code) {
-  Card card;
+  char codeChars[] = "0000000000";
+  sprintf(codeChars, "%010d", code);
+  Particle.publish("sentry/card-scanned", codeChars);
 
+  Card card;
   lcd.clear();
 
   for (int i = 0; i < numCards; i++) {
@@ -199,7 +203,7 @@ void allowCard(char* greeting) {
   digitalWrite(LCD_BL_G, LOW);
   digitalWrite(LCD_BL_B, HIGH);
 
-  delay(3000);
+  delay(2000);
   resetLCD();
 }
 
@@ -210,7 +214,7 @@ void denyCard(char* greeting) {
   digitalWrite(LCD_BL_G, HIGH);
   digitalWrite(LCD_BL_B, HIGH);
 
-  delay(3000);
+  delay(2000);
   resetLCD();
 }
 
@@ -220,6 +224,6 @@ void denyUnknownCard() {
   digitalWrite(LCD_BL_G, HIGH);
   digitalWrite(LCD_BL_B, HIGH);
 
-  delay(3000);
+  delay(2000);
   resetLCD();
 }
