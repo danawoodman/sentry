@@ -1,4 +1,5 @@
 import path from 'path'
+import fs from 'fs'
 
 require('dotenv').load({ silent: true })
 
@@ -20,15 +21,8 @@ export const VIEWS_PATH = path.join(SOURCE_PATH, 'views')
 export const MODELS_PATH = path.join(SOURCE_PATH, 'models')
 export const ASSETS_PATH = path.join(SOURCE_PATH, 'assets')
 export const PUBLIC_PATH = path.join(ROOT_PATH, 'public')
-export const INSTALLER_PATH = [
-  './firmware/sentry.ino',
-  './firmware/LiquidCrystal.h',
-  './firmware/LiquidCrystal.cpp',
-  './firmware/ParticleConnection.h',
-  './firmware/ParticleConnection.cpp',
-  './firmware/RFID.h',
-  './firmware/RFID.cpp',
-]
+export const INSTALLER_PATH = fs.readdirSync('./firmware')
+console.log(INSTALLER_PATH);
 
 // Cobot
 export const COBOT_SUBDOMAIN = env.COBOT_SUBDOMAIN
