@@ -7,6 +7,7 @@
 
 #include "LiquidCrystal.h"
 #include "RFID.h"
+#include "ParticleConnection.h"
 
 #define LCD_RS D6
 #define LCD_EN D5
@@ -45,6 +46,8 @@ RFID rfid = RFID();
 uint numCards = 0;
 
 // Are we connected to the Particle cloud.
+ParticleConnection cloud = ParticleConnection();
+
 bool connected = false;
 bool connecting = false;
 
@@ -63,7 +66,6 @@ void setup() {
 
   Particle.subscribe("sentry/wipe-members", wipeMembers);
   Particle.subscribe("sentry/append-members", appendMembers);
-  Particle.publish("sentry/request-members");
 
   lcd.begin(16, 2);
   lcd.print("Connecting...");
@@ -77,41 +79,16 @@ void loop() {
 }
 
 void manageParticleConnection() {
-  // Connected, last we knew.
-  if (connected) {
-
-    // Process particle events.
+  if (cloud.connected) {
     Particle.process();
+  }
 
-    // If we were connecting, we are aren't anymore.
-    if (connecting) {
-      connecting = false;
-    }
-
-    // If we are no longer connected, record that state.
-    if (!Particle.connected()) {
-      connected = false;
-      connecting = false;
-      lcd.clear();
-      lcd.print("Connecting...");
-    }
-
-  // Not connected, last we knew.
-  } else {
-
-    // Does Partcile say we're connected? record that state.
-    if (Particle.connected()) {
-      connected = true;
-      connecting = false;
-      resetLCD();
-
-    // Not connected, and not connecting, so lets try to connect.
-    } else if (!connecting) {
-      Particle.connect();
-      connecting = true;
-      lcd.clear();
-      lcd.print("Connecting...");
-    }
+  if (cloud.didConnect()) {
+    resetLCD();
+    Particle.publish("sentry/request-members");
+  } else if (cloud.didStartConnecting()) {
+    lcd.clear();
+    lcd.print("Connecting...");
   }
 }
 

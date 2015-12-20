@@ -24,6 +24,8 @@ export const INSTALLER_PATH = [
   './firmware/sentry.ino',
   './firmware/LiquidCrystal.h',
   './firmware/LiquidCrystal.cpp',
+  './firmware/ParticleConnection.h',
+  './firmware/ParticleConnection.cpp',
   './firmware/RFID.h',
   './firmware/RFID.cpp',
 ]
