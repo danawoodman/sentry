@@ -22,7 +22,7 @@
 #define LCD_BL_G A2
 #define LCD_BL_B A1
 
-#define LED_PIN D7
+#define LOCK_PIN D7
 
 // Dont demand wifi before our code starts running.
 SYSTEM_MODE(MANUAL);
@@ -49,7 +49,7 @@ void setup() {
   Serial.begin(9600);
   rfid.begin();
 
-  pinMode(LED_PIN, OUTPUT);
+  pinMode(LOCK_PIN, OUTPUT);
   pinMode(LCD_BL_R, OUTPUT);
   pinMode(LCD_BL_G, OUTPUT);
   pinMode(LCD_BL_B, OUTPUT);
@@ -82,7 +82,7 @@ void manageParticleConnection() {
     Particle.publish("sentry/request-members");
   } else if (cloud.didStartConnecting()) {
     lcd.clear();
-    lcd.print("Connecting...");
+    lcd.print("  Connecting... ");
   }
 }
 
@@ -106,7 +106,6 @@ void appendMembers(const char *event, const char *data) {
   store.appendCards(data);
 }
 
-
 void checkCode(int code) {
   char line1[17];
   char line2[17];
@@ -128,7 +127,11 @@ void allowCard(char* line1, char* line2) {
   digitalWrite(LCD_BL_G, LOW);
   digitalWrite(LCD_BL_B, HIGH);
 
-  delay(2000);
+  digitalWrite(LOCK_PIN, HIGH);
+
+  delay(3000);
+
+  digitalWrite(LOCK_PIN, LOW);
   resetLCD();
 }
 
