@@ -13,10 +13,10 @@
 
 #define LCD_RS D6
 #define LCD_EN D5
-#define LCD_DB4 D1
-#define LCD_DB5 D2
-#define LCD_DB6 D3
-#define LCD_DB7 D4
+#define LCD_DB4 D4
+#define LCD_DB5 D3
+#define LCD_DB6 D2
+#define LCD_DB7 D1
 
 #define LCD_BL_R A0
 #define LCD_BL_G A2

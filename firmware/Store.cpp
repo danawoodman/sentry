@@ -2,7 +2,7 @@
 #include "Store.h"
 #include "sd-card-library-photon-compat.h"
 
-#define SD_CS A2
+#define SD_CS D0
 #define SD_MOSI A5
 #define SD_MISO A4
 #define SD_CLK A3
