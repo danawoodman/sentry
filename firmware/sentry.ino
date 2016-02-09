@@ -19,10 +19,10 @@
 #define LCD_DB7 D1
 
 #define LCD_BL_R A0
-#define LCD_BL_G A2
-#define LCD_BL_B A1
+#define LCD_BL_G A1
+#define LCD_BL_B A2
 
-#define LOCK_PIN D7
+#define LOCK_SERVO_PIN D0
 
 // Dont demand wifi before our code starts running.
 SYSTEM_MODE(MANUAL);
@@ -42,6 +42,8 @@ ParticleConnection cloud = ParticleConnection();
 // SD card that we use for storage.
 Store store = Store();
 
+Servo lockServo; // 20 - 85
+
 bool connected = false;
 bool connecting = false;
 
@@ -49,7 +51,8 @@ void setup() {
   Serial.begin(9600);
   rfid.begin();
 
-  pinMode(LOCK_PIN, OUTPUT);
+  lockServo.attach(LOCK_SERVO_PIN);
+
   pinMode(LCD_BL_R, OUTPUT);
   pinMode(LCD_BL_G, OUTPUT);
   pinMode(LCD_BL_B, OUTPUT);
@@ -63,6 +66,8 @@ void setup() {
 
   lcd.begin(16, 2);
   lcd.print("Connecting...");
+
+  lockDoor();
 }
 
 void loop() {
@@ -127,11 +132,10 @@ void allowCard(char* line1, char* line2) {
   digitalWrite(LCD_BL_G, LOW);
   digitalWrite(LCD_BL_B, HIGH);
 
-  digitalWrite(LOCK_PIN, HIGH);
-
+  unlockDoor();
   delay(3000);
+  lockDoor();
 
-  digitalWrite(LOCK_PIN, LOW);
   resetLCD();
 }
 
@@ -158,4 +162,12 @@ void denyUnknownCard() {
 
   delay(2000);
   resetLCD();
+}
+
+void unlockDoor() {
+  lockServo.write(85);
+}
+
+void lockDoor() {
+  lockServo.write(20);
 }

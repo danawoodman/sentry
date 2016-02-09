@@ -1,8 +1,8 @@
 #include "application.h"
 #include "Store.h"
-#include "sd-card-library-photon-compat.h"
+#include "SdFat.h"
 
-#define SD_CS D0
+#define SD_CS D7
 #define SD_MOSI A5
 #define SD_MISO A4
 #define SD_CLK A3
@@ -10,19 +10,11 @@
 #define MAX_LINE_SIZE 10   + 1  + 1  + 1 + 16       + 1 + 16
 //                    rfid   \t   1/0  \t  greeting1  \t  greeting2
 
+SdFat SD;
+
 Store::Store() {
   // Initialize HARDWARE SPI with user defined chipSelect
   SD.begin(SD_CS);
-
-  // File myFile = SD.open("cards.txt", FILE_WRITE);
-  // myFile.print("0002207685\t1\tCome in! Yay!");
-  // myFile.close();
-  //
-  // myFile = SD.open("cards.txt");
-  // while (myFile.available()) {
-  //   Serial.write(myFile.read());
-  // }
-  // myFile.close();
 }
 
 // Accept data in tab delineated CSV format, where each row is:
@@ -96,18 +88,16 @@ void Store::appendCard(int code, bool allow, char* greeting1, char* greeting2) {
   sprintf(codeChars, "%010d", code);
 
   File cards = SD.open("cards.csv", FILE_WRITE);
-  if (cards) {
-    cards.print(codeChars);
-    cards.print("\t");
-    cards.print(allow ? "1" : "0");
-    cards.print("\t");
-    cards.print(greeting1);
-    cards.print("\t");
-    cards.print(greeting2);
-    cards.print("\n");
+  cards.print(codeChars);
+  cards.print("\t");
+  cards.print(allow ? "1" : "0");
+  cards.print("\t");
+  cards.print(greeting1);
+  cards.print("\t");
+  cards.print(greeting2);
+  cards.print("\n");
 
-    cards.close();
-  }
+  cards.close();
 }
 
 void Store::wipeCards() {
