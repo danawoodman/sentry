@@ -93,13 +93,17 @@ void manageParticleConnection() {
 
 void resetLCD() {
   lcd.clear();
-  lcd.print("     SENTRY     ");
+  lcd.print("S  E  N  T  R  Y");
   lcd.setCursor(0, 1);
-  lcd.print("     online     ");
+  lcd.print(" Chimera Makers ");
 
-  digitalWrite(LCD_BL_R, HIGH);
-  digitalWrite(LCD_BL_G, HIGH);
-  digitalWrite(LCD_BL_B, LOW);
+  setBacklight(0, 0, 1);
+}
+
+void setBacklight(bool r, bool g, bool b) {
+  digitalWrite(LCD_BL_R, r ? LOW : HIGH);
+  digitalWrite(LCD_BL_G, g ? LOW : HIGH);
+  digitalWrite(LCD_BL_B, b ? LOW : HIGH);
 }
 
 // Reset the card counter to zero, meaning we have no cards in memory.
@@ -128,10 +132,7 @@ void allowCard(char* line1, char* line2) {
   lcd.setCursor(0, 1);
   lcd.print(line2);
 
-  digitalWrite(LCD_BL_R, HIGH);
-  digitalWrite(LCD_BL_G, LOW);
-  digitalWrite(LCD_BL_B, HIGH);
-
+  setBacklight(0, 1, 0);
   unlockDoor();
   delay(3000);
   lockDoor();
@@ -145,9 +146,7 @@ void denyCard(char* line1, char* line2) {
   lcd.setCursor(0, 1);
   lcd.print(line2);
 
-  digitalWrite(LCD_BL_R, LOW);
-  digitalWrite(LCD_BL_G, HIGH);
-  digitalWrite(LCD_BL_B, HIGH);
+  setBacklight(1, 0, 0);
 
   delay(2000);
   resetLCD();
@@ -156,9 +155,7 @@ void denyCard(char* line1, char* line2) {
 void denyUnknownCard() {
   lcd.clear();
   lcd.print(" ACCESS  DENIED ");
-  digitalWrite(LCD_BL_R, LOW);
-  digitalWrite(LCD_BL_G, HIGH);
-  digitalWrite(LCD_BL_B, HIGH);
+  setBacklight(1, 0, 0);
 
   delay(2000);
   resetLCD();
