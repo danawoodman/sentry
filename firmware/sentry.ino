@@ -42,7 +42,17 @@ ParticleConnection cloud = ParticleConnection();
 // SD card that we use for storage.
 Store store = Store();
 
-Servo lockServo; // 20 - 85
+// This servo controls the door lock.
+Servo lockServo;
+
+// Minumum amount of milliseconds that it will lock out an already scanned card.
+#define CODE_RESCAN_DELAY 5000
+
+// The code of the last card read.
+int lastCode;
+
+// When that last card read is allowed ot be read again.
+unsigned long lastCodeCanRescanAt;
 
 bool connected = false;
 bool connecting = false;
@@ -119,7 +129,14 @@ void checkCode(int code) {
   char line1[17];
   char line2[17];
 
+  // Prevent double scans by ignoring the same card within a short period.
+  if ((code == lastCode) && (millis() < lastCodeCanRescanAt)) {
+    return;
+  }
+
   if (store.allowCard(code, line1, line2)) {
+    lastCode = code;
+    lastCodeCanRescanAt = millis() + CODE_RESCAN_DELAY;
     allowCard(line1, line2);
   } else {
     denyCard(line1, line2);
