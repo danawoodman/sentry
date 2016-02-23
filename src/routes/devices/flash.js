@@ -22,7 +22,7 @@ export default async (req, res) => {
 
   debug('logged into Particle')
 
-  await spark.flashCore(deviceId, FIRMWARE_FILE_PATHS)
+  await spark.flash(deviceId, FIRMWARE_FILE_PATHS)
 
   req.flash('success', `Flashing of device ${deviceId} started`)
   res.redirect('/devices')
