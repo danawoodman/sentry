@@ -46,9 +46,9 @@ export default async (req, res) => {
 
   // Buffer the list of members so the device doesn't
   // crash.
-  await* chunks.map(async (chunk) => {
+  await Promise.all(chunks.map(async (chunk) => {
     return await spark.publishEvent('sentry/append-members', chunk.join('\n'))
-  })
+  }))
 
   req.flash('success', `Updating all devices with ${memberships.length} memberships`)
   res.redirect('/devices')
