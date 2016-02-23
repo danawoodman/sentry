@@ -126,8 +126,8 @@ void appendMembers(const char *event, const char *data) {
 }
 
 void checkCode(int code) {
-  char line1[17];
-  char line2[17];
+  char line1[17] = "                ";
+  char line2[17] = "                ";
 
   // Prevent double scans by ignoring the same card within a short period.
   if ((code == lastCode) && (millis() < lastCodeCanRescanAt)) {
