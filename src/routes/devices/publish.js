@@ -17,9 +17,19 @@ export default async (req, res) => {
 
   const csv = memberships.map((m) => {
     const token = m.accessToken
-    const status = 1
+    const status = 1 // TODO: expired members should be 0!
     const line1 = '   Welcome in   '
-    const line2 = m.name
+
+    // Get a centered first name. Hacky but works
+    const lineLength = 16
+    const first = m.name.split(' ')[0]
+    const leftover = lineLength - first.length
+    const left = Math.floor(leftover / 2)
+    const leftSpaces = Array(left).join(' ')
+    const right = leftover - left
+    const rightSpaces = Array(right).join(' ')
+    const line2 = leftSpaces + first + rightSpaces
+
     return `${token}\t${status}\t${line1}\t${line2}`
   })
 
