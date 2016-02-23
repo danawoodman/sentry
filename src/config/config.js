@@ -21,7 +21,7 @@ export const VIEWS_PATH = path.join(SOURCE_PATH, 'views')
 export const MODELS_PATH = path.join(SOURCE_PATH, 'models')
 export const ASSETS_PATH = path.join(SOURCE_PATH, 'assets')
 export const PUBLIC_PATH = path.join(ROOT_PATH, 'public')
-export const INSTALLER_PATH = fs.readFileSync('./firmware/particle.include', {encoding: 'utf8'}).split("\n")
+export const INSTALLER_PATH = fs.readFileSync(path.join(ROOT_PATH, 'firmware/particle.include'), {encoding: 'utf8'}).split("\n")
 
 
 // Cobot
