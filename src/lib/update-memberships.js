@@ -46,7 +46,7 @@ export default async (account) => {
   // For every member, find or update the member in our local
   // database and figure out their current status.
   // TODO: Move to lib/helper
-  const membersWithTokens = await* tokens.map(async (token) => {
+  const membersWithTokens = await Promise.all(tokens.map(async (token) => {
 
     const membership = _.findWhere(memberships, {
       id: token.membership.id,
@@ -104,7 +104,7 @@ export default async (account) => {
       },
       { upsert: true }
     )
-  })
+  }))
 
   // Clean out any blank records.
   return _.pull(membersWithTokens, null)
