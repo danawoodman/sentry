@@ -46,7 +46,7 @@ Store store = Store();
 Servo lockServo;
 
 // Minumum amount of milliseconds that it will lock out an already scanned card.
-#define CODE_RESCAN_DELAY 5000
+#define CODE_RESCAN_DELAY 10000
 
 // The code of the last card read.
 int lastCode;
@@ -134,6 +134,8 @@ void checkCode(int code) {
     return;
   }
 
+  Particle.publish("sentry/card-scanned", String(code));
+
   if (store.allowCard(code, line1, line2)) {
     lastCode = code;
     lastCodeCanRescanAt = millis() + CODE_RESCAN_DELAY;
@@ -151,7 +153,7 @@ void allowCard(char* line1, char* line2) {
 
   setBacklight(0, 1, 0);
   unlockDoor();
-  delay(3000);
+  delay(6000);
   lockDoor();
 
   resetLCD();
@@ -179,9 +181,9 @@ void denyUnknownCard() {
 }
 
 void unlockDoor() {
-  lockServo.write(85);
+  lockServo.write(125);
 }
 
 void lockDoor() {
-  lockServo.write(20);
+  lockServo.write(50);
 }

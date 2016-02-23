@@ -6,6 +6,11 @@ Publishes: `sentry/request-members`
 
 When the device boots up and connects to the internet, it will publish this event. No response is expected, but the server should then publish a set of wipe/append events so the device can be up to date as soon as possible.
 
+Publishes: `sentry/card-scanned`
+--------------------------------
+
+When the device scans a card it publishes this event and send the the 10 digit card number as ASCII as the `data`.
+
 Subscribes: `sentry/wipe-members`
 ---------------------------------
 
