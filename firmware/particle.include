@@ -1,6 +1,4 @@
 sentry.ino
-Card.h
-Card.cpp
 LiquidCrystal.h
 LiquidCrystal.cpp
 ParticleConnection.h
