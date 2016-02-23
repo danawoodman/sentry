@@ -6,19 +6,6 @@ const Membership = require('mongoose').model('Membership')
 
 export default async (req, res) => {
 
-  //const deviceId = req.params.deviceId
-  //const INSTALLER_PATH = res.locals.config.INSTALLER_PATH
-  //if (!deviceId ||
-      //!INSTALLER_PATH ||
-      //!req.currentAccount ||
-      //!req.currentAccount.particleAccessToken) {
-    //req.flash('danger', `Could not flash device ${deviceId}`)
-    //return res.redirect('/devices')
-  //}
-
-  //debug('beginning flash of device', deviceId)
-  //debug('path to particle installer file', INSTALLER_PATH)
-
   const accessToken = req.currentAccount.particleAccessToken
   spark.login({ accessToken })
 

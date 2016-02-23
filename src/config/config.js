@@ -21,13 +21,14 @@ export const VIEWS_PATH = path.join(SOURCE_PATH, 'views')
 export const MODELS_PATH = path.join(SOURCE_PATH, 'models')
 export const ASSETS_PATH = path.join(SOURCE_PATH, 'assets')
 export const PUBLIC_PATH = path.join(ROOT_PATH, 'public')
-export const FIRMWARE_PATH = path.join(ROOT_PATH, 'firmware')
-export const INSTALLER_PATH = fs.readFileSync(
+export const FIRMWARE_DIR = 'firmware'
+export const FIRMWARE_PATH = path.join(ROOT_PATH, FIRMWARE_DIR)
+export const FIRMWARE_FILE_PATHS = fs.readFileSync(
   path.join(FIRMWARE_PATH, 'particle.include'),
   { encoding: 'utf8' }
 )
   .split('\n')
-  .map((line) => path.join(FIRMWARE_PATH, line))
+  .map((line) => `${FIRMWARE_DIR}/${line}`)
 
 // Cobot
 export const COBOT_SUBDOMAIN = env.COBOT_SUBDOMAIN
