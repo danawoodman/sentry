@@ -32,6 +32,8 @@ export const FIRMWARE_FILE_PATHS = fs.readFileSync(
     if (Boolean(line)) {
       lines.push(`./${FIRMWARE_DIR}/${line}`)
     }
+
+    return lines
   }, [])
 
 // Cobot
