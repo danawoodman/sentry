@@ -28,7 +28,7 @@ export const FIRMWARE_FILE_PATHS = fs.readFileSync(
   { encoding: 'utf8' }
 )
   .split('\n')
-  .map((line) => `${FIRMWARE_DIR}/${line}`)
+  .map((line) => `./${FIRMWARE_DIR}/${line}`)
 
 // Cobot
 export const COBOT_SUBDOMAIN = env.COBOT_SUBDOMAIN
