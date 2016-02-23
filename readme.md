@@ -126,6 +126,10 @@ Now you should be able to open up <http://my-doorlock-app.ngrok.io> and see your
 
 You can run the application with `npm start` or using foreman `foreman start`.
 
+You will need to add the Heroku Scheduler app to your Heroku app and then create a job that calls `npm run sync-memberships` like so:
+
+![](http://cl.ly/fDb1/Screen%20Shot%202016-02-22%20at%208.40.11%20PM.png)
+
 
 ### Deploy
 
