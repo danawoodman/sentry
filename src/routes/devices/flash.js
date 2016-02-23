@@ -22,7 +22,8 @@ export default async (req, res) => {
 
   debug('logged into Particle')
 
-  await spark.flash(deviceId, FIRMWARE_FILE_PATHS)
+  const device = await spark.getDevice(deviceId)
+  await device.flash(FIRMWARE_FILE_PATHS)
 
   req.flash('success', `Flashing of device ${deviceId} started`)
   res.redirect('/devices')
