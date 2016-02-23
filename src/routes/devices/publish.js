@@ -18,8 +18,9 @@ export default async (req, res) => {
   const csv = memberships.map((m) => {
     const token = m.accessToken
     const status = 1
-    const message = 'Hello'
-    return `${token}\t${status}\t${message}`
+    const line1 = '   Welcome in   '
+    const line2 = m.name
+    return `${token}\t${status}\t${line1}\t${line2}`
   })
 
   debug('csv', csv)
