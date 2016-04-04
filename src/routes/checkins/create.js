@@ -5,6 +5,7 @@ const debug = require('debug')('sentry:routes:checkins:create')
 
 export default async (req, res) => {
 
+  console.log('body', req.body)
   debug('checkin', req.body)
   //{
     //"eventName": "Your event name",
