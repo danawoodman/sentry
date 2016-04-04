@@ -32,7 +32,7 @@ export default (app) => {
   app.get('/devices/publish', wrap(require('../routes/devices/publish').default))
 
   // Hooks
-  app.post('/hooks/checkin', wrap(require('../routes/hooks/create').default))
+  app.post('/hooks/checkin', wrap(require('../routes/checkins/create').default))
 
   // Default route.
   app.get('/', wrap(require('../routes/memberships/list').default))
