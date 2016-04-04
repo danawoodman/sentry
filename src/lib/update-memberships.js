@@ -66,7 +66,7 @@ export default async (account) => {
     const unlimitedAccess = unlimitedPlans.includes(plan)
     let availableCredits = null
 
-    if (membership.time_passes) {
+    if (membership.plan.time_passes) {
 
       debug('user has time passes', cobotId)
 
