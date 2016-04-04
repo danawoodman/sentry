@@ -72,6 +72,7 @@ export default async (account) => {
 
       // Fetch all the membership's unused time passes.
       const allCredits = await request({
+        headers: { 'Authorization': `Bearer ${accessToken}` },
         json: true,
         uri: `https://${subdomain}.cobot.me/api/memberships/${cobotId}/time_passes/unused`,
       })
