@@ -31,6 +31,9 @@ export default (app) => {
   app.post('/devices/:deviceId/flash', wrap(require('../routes/devices/flash').default))
   app.get('/devices/publish', wrap(require('../routes/devices/publish').default))
 
+  // Hooks
+  app.post('/hooks/checkin', wrap(require('../routes/hooks/create').default))
+
   // Default route.
   app.get('/', wrap(require('../routes/memberships/list').default))
 }

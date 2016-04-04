@@ -1,0 +1,4 @@
+{
+  "event": "sentry/card-scanned",
+  "url": "https://chimera-door.herokuapp.com/hooks/checkin"
+}
