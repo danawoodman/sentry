@@ -40,8 +40,15 @@ export const FIRMWARE_FILE_PATHS = fs.readFileSync(
 export const COBOT_SUBDOMAIN = env.COBOT_SUBDOMAIN
 export const COBOT_CLIENT_ID = env.COBOT_CLIENT_ID
 export const COBOT_CLIENT_SECRET = env.COBOT_CLIENT_SECRET
-export const COBOT_STAFF_PLANS = ['Staff Member']
-export const COBOT_UNLIMITED_PLANS = ['Basic Member', 'Friend of Chimera', 'Board Member']
+export const COBOT_STAFF_PLANS = env.COBOT_STAFF_PLANS || ['Staff Member']
+export const COBOT_UNLIMITED_PLANS = env.COBOT_UNLIMITED_PLANS || [
+  'Basic Member',
+  'Friend of Chimera',
+  'Board Member',
+  'Professional',
+  'Professional - Early Bird',
+  'Professional - Yearly',
+]
 
 // Mongo
 export const MONGO_URI = env.MONGO_URI || env.MONGOLAB_URI || 'mongodb://localhost/sentry'
