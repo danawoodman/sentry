@@ -11,14 +11,17 @@ export default async (req, res) => {
   console.log('body', req.body)
   debug('checkin', req.body)
 
-  const cobotAccessToken = req.body.data
+  const accessToken = req.body.data
 
-  const member = await Membership.findOne({ cobotAccessToken })
+  const member = await Membership.findOne({ accessToken })
   console.log('member', member)
 
   const checkin = await Checkin.create({
-    cobotAccessToken,
+    accessToken,
+    cobotId: member.cobotId,
     memberId: member.id,
+    memberName: member.name,
+    memberPlan: member.plan,
   })
 
   //{

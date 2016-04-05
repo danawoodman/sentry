@@ -1,0 +1,42 @@
+extends ../layout.jade
+
+block title
+  | Checkins
+
+block content
+
+    h1 Checkins
+
+    if checkins && checkins.length
+      p Showing #{checkins.length} checkins.
+
+      table.table
+        thead
+          tr
+            th
+            th Member
+            th Time
+            th Token
+            th Plan
+        tbody
+          for membership in checkins
+            tr
+              td
+                img.img-rounded(
+                  src='https://#{config.COBOT_SUBDOMAIN}.cobot.me/api/memberships/#{checkin.cobotId}/picture'
+                  height='24' width='24'
+                )
+              td
+                a(
+                  href='https://#{config.COBOT_SUBDOMAIN}.cobot.me/admin/memberships/#{checkin.cobotId}'
+                  target='_blank'
+                )
+                  = checkin.memberName
+              td
+                span(title=checkin.createdAt) #{moment(checkin.createdAt).fromNow()} ago
+              td
+                em.text-muted= checkin.accessToken
+              td
+                em.text-muted= checkin.memberPlan
+    else
+      p.text-muted No checkins yet...

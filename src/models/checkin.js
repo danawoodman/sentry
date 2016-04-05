@@ -4,13 +4,25 @@ const ObjectId = mongoose.Schema.Types.ObjectId
 
 const schema = new mongoose.Schema({
 
-  cobotAccessToken: {
+  accessToken: {
     type: String,
     required: true,
   },
 
+  cobotId: {
+    type: String,
+  },
+
   memberId: {
     type: ObjectId,
+  },
+
+  memberName: {
+    type: String,
+  },
+
+  memberPlan: {
+    type: String,
   },
 
 }, { timestamps: true })
