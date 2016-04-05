@@ -8,6 +8,10 @@ import {
 
 export default (app) => {
 
+  // Hooks
+  // TODO: need to authenticate this route
+  app.post('/hooks/checkin', wrap(require('../routes/checkins/create').default))
+
   // In production, secure application behind
   // HTTP basic auth.
   if (NODE_ENV === 'production') {
@@ -33,7 +37,6 @@ export default (app) => {
 
   // Checkins
   app.get('/checkins', wrap(require('../routes/checkins/list').default))
-  app.post('/hooks/checkin', wrap(require('../routes/checkins/create').default))
 
   // Default route.
   app.get('/', wrap(require('../routes/memberships/list').default))
