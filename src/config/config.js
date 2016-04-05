@@ -45,7 +45,6 @@ export const COBOT_UNLIMITED_PLANS = env.COBOT_UNLIMITED_PLANS || [
   'Basic Member',
   'Friend of Chimera',
   'Board Member',
-  'Staff Member',
   'Professional',
   'Professional - Early Bird',
   'Professional - Yearly',

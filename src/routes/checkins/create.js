@@ -1,12 +1,26 @@
 import request from 'request-promise'
 import { COBOT_SUBDOMAIN } from '../../config/config'
 
+const Checkin = require('mongoose').model('Checkin')
+const Membership = require('mongoose').model('Membership')
+
 const debug = require('debug')('sentry:routes:checkins:create')
 
 export default async (req, res) => {
 
   console.log('body', req.body)
   debug('checkin', req.body)
+
+  const cobotAccessToken = req.body.data
+
+  const member = await Membership.findOne({ cobotAccessToken })
+  console.log('member', member)
+
+  const checkin = await Checkin.create({
+    cobotAccessToken,
+    memberId: member.id,
+  })
+
   //{
     //"eventName": "Your event name",
     //"data": "Your event contents",
