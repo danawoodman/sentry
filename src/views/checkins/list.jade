@@ -33,7 +33,7 @@ block content
                 )
                   = checkin.memberName
               td
-                span(title=checkin.createdAt) #{moment(checkin.createdAt).fromNow()} ago
+                span(title=checkin.createdAt)= moment(checkin.createdAt).fromNow()
               td
                 em.text-muted= checkin.accessToken
               td
