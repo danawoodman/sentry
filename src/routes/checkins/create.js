@@ -1,4 +1,5 @@
 import request from 'request-promise'
+import spark from 'spark'
 import { COBOT_SUBDOMAIN } from '../../config/config'
 
 const Checkin = require('mongoose').model('Checkin')
@@ -17,6 +18,14 @@ export default async (req, res) => {
 
   const member = await Membership.findOne({ accessToken })
   console.log('member', member)
+
+  if (member) {
+    // Let them in!
+    spark.publishEvent('sentry/allow');
+  } else {
+    // Lock them out.
+    spark.publishEvent('sentry/deny');
+  }
 
   const checkin = await Checkin.create({
     accessToken,

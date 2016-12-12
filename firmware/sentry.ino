@@ -9,7 +9,7 @@
 #include "LiquidCrystal.h"
 #include "RFID.h"
 #include "ParticleConnection.h"
-#include "Store.h"
+// #include "Store.h"
 
 #define LCD_RS D6
 #define LCD_EN D5
@@ -39,8 +39,8 @@ uint numCards = 0;
 // Are we connected to the Particle cloud.
 ParticleConnection cloud = ParticleConnection();
 
-// SD card that we use for storage.
-Store store = Store();
+// // SD card that we use for storage.
+// Store store = Store();
 
 // This servo controls the door lock.
 Servo lockServo;
@@ -71,8 +71,10 @@ void setup() {
   digitalWrite(LCD_BL_G, HIGH);
   digitalWrite(LCD_BL_B, LOW);
 
-  Particle.subscribe("sentry/wipe-members", wipeMembers);
-  Particle.subscribe("sentry/append-members", appendMembers);
+  // Particle.subscribe("sentry/wipe-members", wipeMembers);
+  // Particle.subscribe("sentry/append-members", appendMembers);
+  Particle.subscribe("sentry/allow", allowCard);
+  Particle.subscribe("sentry/deny", denyCard);
 
   lcd.begin(16, 2);
   lcd.print("Connecting...");
@@ -94,7 +96,7 @@ void manageParticleConnection() {
 
   if (cloud.didConnect()) {
     resetLCD();
-    Particle.publish("sentry/request-members");
+    // Particle.publish("sentry/request-members");
   } else if (cloud.didStartConnecting()) {
     lcd.clear();
     lcd.print("  Connecting... ");
@@ -116,14 +118,13 @@ void setBacklight(bool r, bool g, bool b) {
   digitalWrite(LCD_BL_B, b ? LOW : HIGH);
 }
 
-// Reset the card counter to zero, meaning we have no cards in memory.
-void wipeMembers(const char *event, const char *data) {
-  store.wipeCards();
-}
-
-void appendMembers(const char *event, const char *data) {
-  store.appendCards(data);
-}
+// void wipeMembers(const char *event, const char *data) {
+//   store.wipeCards();
+// }
+//
+// void appendMembers(const char *event, const char *data) {
+//   store.appendCards(data);
+// }
 
 void checkCode(int code) {
   char line1[17] = "                ";
@@ -136,20 +137,32 @@ void checkCode(int code) {
 
   Particle.publish("sentry/card-scanned", String(code));
 
-  if (store.allowCard(code, line1, line2)) {
-    lastCode = code;
-    lastCodeCanRescanAt = millis() + CODE_RESCAN_DELAY;
-    allowCard(line1, line2);
-  } else {
-    denyCard(line1, line2);
-  }
+  // if (store.allowCard(code, line1, line2)) {
+  //   lastCode = code;
+  //   lastCodeCanRescanAt = millis() + CODE_RESCAN_DELAY;
+  //   allowCard(line1, line2);
+  // } else {
+  //   denyCard(line1, line2);
+  // }
 }
 
-void allowCard(char* line1, char* line2) {
+// void allowCard(char* line1, char* line2) {
+//   lcd.clear();
+//   lcd.print(line1);
+//   lcd.setCursor(0, 1);
+//   lcd.print(line2);
+//
+//   setBacklight(0, 1, 0);
+//   unlockDoor();
+//   delay(6000);
+//   lockDoor();
+//
+//   resetLCD();
+// }
+
+void allowCard(const char *event, const char *data) {
   lcd.clear();
-  lcd.print(line1);
-  lcd.setCursor(0, 1);
-  lcd.print(line2);
+  lcd.print("    Welcome!    ");
 
   setBacklight(0, 1, 0);
   unlockDoor();
@@ -159,19 +172,19 @@ void allowCard(char* line1, char* line2) {
   resetLCD();
 }
 
-void denyCard(char* line1, char* line2) {
-  lcd.clear();
-  lcd.print(line1);
-  lcd.setCursor(0, 1);
-  lcd.print(line2);
+// void denyCard(char* line1, char* line2) {
+//   lcd.clear();
+//   lcd.print(line1);
+//   lcd.setCursor(0, 1);
+//   lcd.print(line2);
+//
+//   setBacklight(1, 0, 0);
+//
+//   delay(2000);
+//   resetLCD();
+// }
 
-  setBacklight(1, 0, 0);
-
-  delay(2000);
-  resetLCD();
-}
-
-void denyUnknownCard() {
+void denyCard(const char *event, const char *data) {
   lcd.clear();
   lcd.print(" ACCESS  DENIED ");
   setBacklight(1, 0, 0);

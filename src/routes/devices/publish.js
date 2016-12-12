@@ -39,14 +39,14 @@ export default async (req, res) => {
 
   debug('chunks', chunks)
 
-  // Clear out existing members
-  await spark.publishEvent('sentry/wipe-members')
-
-  // Buffer the list of members so the device doesn't
-  // crash.
-  await Promise.all(chunks.map(async (chunk) => {
-    return await spark.publishEvent('sentry/append-members', chunk.join('\n'))
-  }))
+  // // Clear out existing members
+  // await spark.publishEvent('sentry/wipe-members')
+  //
+  // // Buffer the list of members so the device doesn't
+  // // crash.
+  // await Promise.all(chunks.map(async (chunk) => {
+  //   return await spark.publishEvent('sentry/append-members', chunk.join('\n'))
+  // }))
 
   req.flash('success', `Updating all devices with ${memberships.length} memberships`)
   res.redirect('/devices')

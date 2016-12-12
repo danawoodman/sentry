@@ -5,8 +5,8 @@ ParticleConnection.h
 ParticleConnection.cpp
 RFID.h
 RFID.cpp
-Store.h
-Store.cpp
+# Store.h
+# Store.cpp
 sd/ArduinoFiles.h
 sd/ArduinoStream.h
 sd/FatApiConstants.h
