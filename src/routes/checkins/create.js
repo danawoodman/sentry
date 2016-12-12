@@ -11,7 +11,7 @@ const debug = require('debug')('sentry:routes:checkins:create')
 export default async (req, res) => {
 
   // Immediately return for Particle
-  res.status(200)
+  res.sendStatus(200)
 
   console.log('body', req.body)
   debug('checkin', req.body)
