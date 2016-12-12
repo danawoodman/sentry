@@ -1,5 +1,5 @@
 import request from 'request-promise'
-import spark from 'spark'
+import particle from 'particle-api-js'
 import { COBOT_SUBDOMAIN } from '../../config/config'
 
 const Checkin = require('mongoose').model('Checkin')
@@ -8,6 +8,9 @@ const Membership = require('mongoose').model('Membership')
 const debug = require('debug')('sentry:routes:checkins:create')
 
 export default async (req, res) => {
+
+  // Immediately return for Particle
+  res.status(200)
 
   console.log('body', req.body)
   debug('checkin', req.body)
@@ -19,12 +22,22 @@ export default async (req, res) => {
   const member = await Membership.findOne({ accessToken })
   console.log('member', member)
 
+  const auth = req.currentAccount.particleAccessToken
+
   if (member) {
     // Let them in!
-    spark.publishEvent('sentry/allow');
+    await particle.publishEvent({
+      name: 'sentry/allow',
+      data: {},
+      auth,
+    })
   } else {
     // Lock them out.
-    spark.publishEvent('sentry/deny');
+    await particle.publishEvent({
+      name: 'sentry/deny',
+      data: {},
+      auth,
+    })
   }
 
   const checkin = await Checkin.create({
@@ -50,5 +63,4 @@ export default async (req, res) => {
     //uri: `https://${COBOT_SUBDOMAIN}.cobot.me/api/memberships/${memberId}/work_sessions`,
   //})
 
-  res.status(200)
 }

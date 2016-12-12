@@ -1,13 +1,13 @@
 import _ from 'lodash'
-import spark from 'spark'
+//import spark from 'spark'
 
 const debug = require('debug')('sentry:routes:devices:publish')
 const Membership = require('mongoose').model('Membership')
 
 export default async (req, res) => {
 
-  const accessToken = req.currentAccount.particleAccessToken
-  spark.login({ accessToken })
+  //const accessToken = req.currentAccount.particleAccessToken
+  //spark.login({ accessToken })
 
   debug('logged into Particle')
 
