@@ -1,7 +1,8 @@
 import request from 'request-promise'
-import particle from 'particle-api-js'
+import Particle from 'particle-api-js'
 import { COBOT_SUBDOMAIN } from '../../config/config'
 
+const particle = new Particle()
 const Checkin = require('mongoose').model('Checkin')
 const Membership = require('mongoose').model('Membership')
 
