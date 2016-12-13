@@ -32,6 +32,14 @@ export default async (req, res) => {
       data: {},
       auth,
     })
+
+    const checkin = await Checkin.create({
+      accessToken,
+      cobotId: member.cobotId,
+      memberId: member.id,
+      memberName: member.name,
+      memberPlan: member.plan,
+    })
   } else {
     // Lock them out.
     await particle.publishEvent({
@@ -40,14 +48,6 @@ export default async (req, res) => {
       auth,
     })
   }
-
-  const checkin = await Checkin.create({
-    accessToken,
-    cobotId: member.cobotId,
-    memberId: member.id,
-    memberName: member.name,
-    memberPlan: member.plan,
-  })
 
   //{
     //"eventName": "Your event name",
