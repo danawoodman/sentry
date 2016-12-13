@@ -137,6 +137,16 @@ void checkCode(int code) {
 
   Particle.publish("sentry/card-scanned", String(code));
 
+  // Dont scan multiple times in  a row
+  lastCode = code;
+  lastCodeCanRescanAt = millis() + CODE_RESCAN_DELAY;
+
+  // Let them know we are scanning
+  lcd.clear();
+  lcd.print("    Scanning    ");
+  //delay(2000);
+  //resetLCD();
+
   // if (store.allowCard(code, line1, line2)) {
   //   lastCode = code;
   //   lastCodeCanRescanAt = millis() + CODE_RESCAN_DELAY;
