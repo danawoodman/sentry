@@ -1,3 +1,4 @@
+import leftPad from 'left-pad'
 import request from 'request-promise'
 import Particle from 'particle-api-js'
 import { COBOT_SUBDOMAIN } from '../../config/config'
@@ -18,7 +19,8 @@ export default async (req, res) => {
 
   // Hack because cards start with three 0's but
   // the Arduino app has them stripped off.
-  const accessToken = '000' + req.body.data
+
+  const accessToken = leftPad(req.body.data, 10, '0')
 
   const member = await Membership.findOne({ accessToken })
   console.log('member', member)
