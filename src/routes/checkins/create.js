@@ -21,9 +21,8 @@ function welcomeMessage(member) {
     [ 'Get makin\'', name ],
     [ name, 'welcome back!' ],
   ]
-  // Pick message and center text.
+  // Pick message
   let message = pickRandom(greetings)[0]
-  message = message.map((msg) => pad.center(msg, 16, ' '))
 
   // Mess with certain people
   if (name === 'Jim Wheaton') {
@@ -35,6 +34,9 @@ function welcomeMessage(member) {
   if (name === 'Alex Wayne') {
     message = [ 'Go get a job', 'you hippy!' ]
   }
+
+  // Center things
+  message = message.map((msg) => pad.center(msg, 16, ' '))
 
   console.log('[checkin] Welcome message:', message)
 
