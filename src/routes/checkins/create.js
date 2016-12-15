@@ -7,6 +7,14 @@ const particle = new Particle()
 const Checkin = require('mongoose').model('Checkin')
 const Membership = require('mongoose').model('Membership')
 
+function welcomeMessage(member) {
+  const lines = [
+    'Why hello there!',
+    member.name,
+  ]
+  return lines.join('\n')
+}
+
 export default async (req, res) => {
 
   // Immediately return for Particle
@@ -33,7 +41,7 @@ export default async (req, res) => {
 
     await particle.publishEvent({
       name: 'sentry/allow',
-      data: member.name,
+      data: welcomeMessage(member),
       auth,
     })
 
