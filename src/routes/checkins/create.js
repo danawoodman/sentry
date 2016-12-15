@@ -13,16 +13,28 @@ function welcomeMessage(member) {
   const greetings = [
     [ 'Howdy', name ],
     [ 'Why hello', name ],
-    [ 'Ciao', name ],
     [ 'Come on in', name ],
     [ 'I love you', name ],
     [ name, 'looking hot!' ],
     [ 'You rock', name ],
-    [ 'Hola', name ],
+    [ 'Get in there', name ],
+    [ 'Get makin\'', name ],
+    [ name, 'welcome back!' ],
   ]
   // Pick message and center text.
   let message = pickRandom(greetings)[0]
   message = message.map((msg) => pad.center(msg, 16, ' '))
+
+  // Mess with certain people
+  if (name === 'Jim Wheaton') {
+    message = [ 'You smell like', 'FARRRRRTTTS!' ]
+  }
+  if (name === 'Dana Woodman') {
+    message = [ 'Damn you lookin\'', 'SEXXXYYY!!' ]
+  }
+  if (name === 'Alex Wayne') {
+    message = [ 'Go get a job', 'you hippy!' ]
+  }
 
   console.log('[checkin] Welcome message:', message)
 
