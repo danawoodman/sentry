@@ -48,7 +48,7 @@ export default async (account) => {
   // TODO: Move to lib/helper
   const membersWithTokens = await Promise.all(tokens.map(async (token) => {
 
-    const membership = _.findWhere(memberships, {
+    const membership = _.find(memberships, {
       id: token.membership.id,
     })
 
