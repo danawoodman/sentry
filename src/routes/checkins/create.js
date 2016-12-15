@@ -24,7 +24,7 @@ function welcomeMessage(member) {
   // Pick message and center text.
   let message = pickRandom(greetings)[0]
   console.log(message)
-  message = message.map((msg) => pad.center(msg, 16))
+  message = message.map((msg) => pad.center(msg, 16, ' '))
   return message.join('\n')
 }
 
