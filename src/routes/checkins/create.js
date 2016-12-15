@@ -22,11 +22,11 @@ function welcomeMessage(member) {
   ]
   // Pick message and center text.
   let message = pickRandom(greetings)[0]
-  message = message.map((msg) => pad.center(msg, 16, ' '))
+  message = message.map((msg) => pad.center(msg, 16, ' ')).join('\n')
 
   console.log('[checkin] Welcome message:', message)
 
-  return message.join('\n')
+  return message
 }
 
 export default async (req, res) => {
