@@ -26,13 +26,13 @@ function welcomeMessage(member) {
 
   // Mess with certain people
   if (name === 'Jim Wheaton') {
-    message = [ 'You smell like', 'FARRRRRTTTS!' ]
+    message = [ 'Welcome in', 'Your Excellency!' ]
   }
   if (name === 'Dana Woodman') {
-    message = [ 'Damn you lookin\'', 'SEXXXYYY!!' ]
+    message = [ 'Damn you lookin\'', 'SEXXXYYY!!!!!!!!' ]
   }
   if (name === 'Alex Wayne') {
-    message = [ 'Go get a job', 'you hippy!' ]
+    message = [ 'FUCK YES', 'DOUCHEBAG FACE!!' ]
   }
 
   // Center things
