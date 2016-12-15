@@ -1,6 +1,7 @@
-import leftPad from 'left-pad'
-import request from 'request-promise'
+import pad from 'multipad'
 import Particle from 'particle-api-js'
+import pickRandom from 'pick-random'
+import request from 'request-promise'
 import { COBOT_SUBDOMAIN } from '../../config/config'
 
 const particle = new Particle()
@@ -8,11 +9,20 @@ const Checkin = require('mongoose').model('Checkin')
 const Membership = require('mongoose').model('Membership')
 
 function welcomeMessage(member) {
-  const lines = [
-    'Why hello there!',
-    member.name,
+  const { name } = member
+  const greetings = [
+    [ 'Howdy', name ],
+    [ 'Why hello', name ],
+    [ 'Ciao', name ],
+    [ 'Come on in', name ],
+    [ 'I love you', name ],
+    [ name, 'looking hot!' ],
+    [ 'You rock', name ],
+    [ 'Hola', name ],
   ]
-  return lines.join('\n')
+  // Pick message and center text.
+  const message = pickRandom(greetings).map((msg) => pad.center(msg, 16))
+  return message.join('\n')
 }
 
 export default async (req, res) => {
@@ -25,7 +35,7 @@ export default async (req, res) => {
   // Hack because cards start with 0's but
   // the Arduino app has them stripped off.
   // RFID card numbers are 10 characters long
-  const accessToken = leftPad(req.body.data, 10, '0')
+  const accessToken = pad.left(req.body.data, 10, '0')
 
   console.log('[checkin] Access token:', accessToken)
 
