@@ -33,7 +33,7 @@ export default async (req, res) => {
 
     await particle.publishEvent({
       name: 'sentry/allow',
-      data: {},
+      data: 'hello!',
       auth,
     })
 
