@@ -20,11 +20,12 @@ function welcomeMessage(member) {
     [ 'You rock', name ],
     [ 'Hola', name ],
   ]
-  console.log(name)
   // Pick message and center text.
   let message = pickRandom(greetings)[0]
-  console.log(message)
   message = message.map((msg) => pad.center(msg, 16, ' '))
+
+  console.log('[checkin] Welcome message:', message)
+
   return message.join('\n')
 }
 
