@@ -7,28 +7,30 @@ const particle = new Particle()
 const Checkin = require('mongoose').model('Checkin')
 const Membership = require('mongoose').model('Membership')
 
-const debug = require('debug')('sentry:routes:checkins:create')
-
 export default async (req, res) => {
 
   // Immediately return for Particle
   res.sendStatus(200)
 
-  console.log('body', req.body)
-  debug('checkin', req.body)
+  console.log('[checkin] Request body:', req.body)
 
-  // Hack because cards start with three 0's but
+  // Hack because cards start with 0's but
   // the Arduino app has them stripped off.
-
+  // RFID card numbers are 10 characters long
   const accessToken = leftPad(req.body.data, 10, '0')
 
+  console.log('[checkin] Access token:', accessToken)
+
   const member = await Membership.findOne({ accessToken })
-  console.log('member', member)
+
+  console.log('[checkin] Found member:', member)
 
   const auth = req.currentAccount.particleAccessToken
 
   if (member) {
-    // Let them in!
+
+    console.log('[checkin] Card accepted:', accessToken)
+
     await particle.publishEvent({
       name: 'sentry/allow',
       data: {},
@@ -42,8 +44,11 @@ export default async (req, res) => {
       memberName: member.name,
       memberPlan: member.plan,
     })
+
   } else {
-    // Lock them out.
+
+    console.error('[checkin] Card denied:', accessToken)
+
     await particle.publishEvent({
       name: 'sentry/deny',
       data: {},
@@ -51,6 +56,7 @@ export default async (req, res) => {
     })
   }
 
+  // TODO: log checkin in cobot
   //{
     //"eventName": "Your event name",
     //"data": "Your event contents",
