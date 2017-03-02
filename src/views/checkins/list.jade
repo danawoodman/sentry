@@ -10,17 +10,18 @@ block content
     if checkins && checkins.length
       p Showing #{checkins.length} checkins.
 
-      h3 Checkins by Member
-      table.table
-        thead
-          tr
-            th Member
-            th Checkins
-        tbody
-          for checkin in memberCheckins
+      //
+        h3 Checkins by Member
+        table.table
+          thead
             tr
-              td= checkin.name
-              td #{checkin.checkins.length}
+              th Member
+              th Checkins
+          tbody
+            for checkin in memberCheckins
+              tr
+                td= checkin.name
+                td #{checkin.checkins.length}
 
       h3 All Checkins
       table.table
